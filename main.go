@@ -10,7 +10,6 @@ import (
 	"sort"
 	"strings"
 	"sync"
-	// "time"
 )
 
 type myFile struct{
@@ -31,8 +30,6 @@ func main() {
 	path := flag.String("root", "~/", "Введите путь")
 	type_sort := flag.String("sort", "desc", "Введите вид сортировки ")
 
-	array := []myFile{}
-
 	flag.Parse()
 
 	expandedPath, err := checkPath(*path)
@@ -48,41 +45,37 @@ func main() {
 		return
 	}
 	
-	chs := make(chan myFile)
-	
 	wg := sync.WaitGroup{}
 
-	for _, file := range files{
+	count := 0
+
+	array := make([]myFile, len(files))
+
+	for idx, file := range files{
 
 		finfo, err := file.Info()
 
 		if err != nil{
 			fmt.Println("Ошибка информации о файле")
+			idx--
 			continue
 		}
-
 		wg.Add(1)
-		go func(fileinfo fs.FileInfo) {
+		go func(fileinfo fs.FileInfo, c int) {
 			defer wg.Done()
-
 			if fileinfo.IsDir(){
 				size := getSize(expandedPath + "/" + fileinfo.Name()) + fileinfo.Size()
 
-				chs <- myFile{"d", fileinfo.Name(), size, "Bytes"}
+				array[c] = myFile{"d", fileinfo.Name(), size, "Bytes"}
 			}else{
-				chs <- myFile{"f", fileinfo.Name(), fileinfo.Size(), "Bytes"}
+				array[c] = myFile{"f", fileinfo.Name(), fileinfo.Size(), "Bytes"}
 			}
-		}(finfo)
+		}(finfo, count)
+
+		count += 1
 	}
 
-	go func() {
-		wg.Wait()
-		close(chs)
-	}()
-
-	for file := range chs{
-		array = append(array, file)
-	}
+	wg.Wait()
 
 	if *type_sort == "desc"{
 		sort.Slice(array, func(i, j int) bool {
