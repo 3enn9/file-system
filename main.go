@@ -3,10 +3,14 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io/fs"
 	"os"
-	"strings"
 	"path/filepath"
+
 	"sort"
+	"strings"
+	"sync"
+	// "time"
 )
 
 type myFile struct{
@@ -43,22 +47,41 @@ func main() {
 		fmt.Println("Ошибка при чтении директории main", err)
 		return
 	}
+	
+	chs := make(chan myFile)
+	
+	wg := sync.WaitGroup{}
 
 	for _, file := range files{
-		file, err := file.Info()
+
+		finfo, err := file.Info()
 
 		if err != nil{
 			fmt.Println("Ошибка информации о файле")
 			continue
 		}
 
-		if file.IsDir(){
-			size := getSize(expandedPath + "/" + file.Name()) + file.Size()
+		wg.Add(1)
+		go func(fileinfo fs.FileInfo) {
+			defer wg.Done()
 
-			array = append(array, myFile{"d", file.Name(), size, "Bytes"})
-		}else{
-			array = append(array, myFile{"f", file.Name(), file.Size(), "Bytes"})
-		}
+			if fileinfo.IsDir(){
+				size := getSize(expandedPath + "/" + fileinfo.Name()) + fileinfo.Size()
+
+				chs <- myFile{"d", fileinfo.Name(), size, "Bytes"}
+			}else{
+				chs <- myFile{"f", fileinfo.Name(), fileinfo.Size(), "Bytes"}
+			}
+		}(finfo)
+	}
+
+	go func() {
+		wg.Wait()
+		close(chs)
+	}()
+
+	for file := range chs{
+		array = append(array, file)
 	}
 
 	if *type_sort == "desc"{
@@ -72,13 +95,16 @@ func main() {
 
 	}else{
 
-		sort.Sort(ByWeight(array))
-		for _, v := range array{
-			v.weight, v.weight_name = convertBytes(v.weight)
-			fmt.Println(v)
-		}
+	sort.Sort(ByWeight(array))
+	for _, v := range array{
+		v.weight, v.weight_name = convertBytes(v.weight)
+		fmt.Println(v)
+	}
 	}
 }
+
+
+
 
 func getSize(path string) int64 {
 
