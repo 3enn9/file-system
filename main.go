@@ -13,7 +13,7 @@ type myFile struct{
 	category string
 	name string
 	weight int64
-	weight_name string
+	weight_name string 
 }
 
 type ByWeight []myFile
@@ -55,17 +55,18 @@ func main() {
 		if file.IsDir(){
 			size := getSize(expandedPath + "/" + file.Name()) + file.Size()
 
-			convert_bytes, name_weight := convertBytes(size)
-			array = append(array, myFile{"d", file.Name(), convert_bytes, name_weight})
+			array = append(array, myFile{"d", file.Name(), size, "Bytes"})
 		}else{
-			convert_bytes, name_weight := convertBytes(file.Size())
-			array = append(array, myFile{"f", file.Name(), convert_bytes, name_weight})
+			array = append(array, myFile{"f", file.Name(), file.Size(), "Bytes"})
 		}
 	}
 
 	if *type_sort == "desc"{
-
+		sort.Slice(array, func(i, j int) bool {
+			return array[i].weight > array[j].weight
+		})
 		for _, v := range array{
+			v.weight, v.weight_name = convertBytes(v.weight)
 			fmt.Println(v)
 		}
 
@@ -73,6 +74,7 @@ func main() {
 
 		sort.Sort(ByWeight(array))
 		for _, v := range array{
+			v.weight, v.weight_name = convertBytes(v.weight)
 			fmt.Println(v)
 		}
 	}
