@@ -140,10 +140,12 @@ func main() {
 
 	log.Println("Starting server on port", port)
 
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/fs", http.StatusFound)
 	})
-	
+
 	http.HandleFunc("/fs", handler)
 	
 	if err := http.ListenAndServe(port, nil); err != nil{
