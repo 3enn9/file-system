@@ -86,11 +86,17 @@ func handler(w http.ResponseWriter, r *http.Request)  {
 			sort.Slice(array, func(i, j int) bool {
 				return array[i].Weight > array[j].Weight
 			})
+			for i := range array {
+				array[i].Weight, array[i].Weight_name = convertBytes(array[i].Weight)
+			}
 			if err := json.NewEncoder(w).Encode(array); err != nil{
 				http.Error(w, "Ошибка кодировки json", http.StatusInternalServerError)
 			}
 		}else if type_sort == "asc"{
 			sort.Sort(ByWeight(array))
+			for i := range array {
+				array[i].Weight, array[i].Weight_name = convertBytes(array[i].Weight)
+			}
 			if err := json.NewEncoder(w).Encode(array); err != nil{
 				http.Error(w, "Ошибка кодировки json", http.StatusInternalServerError)
 			}
