@@ -1,103 +1,122 @@
 package main
 
 import (
-	"flag"
+	"encoding/json"
 	"fmt"
 	"io/fs"
+	"log"
+	"net/http"
 	"os"
 	"path/filepath"
-
 	"sort"
 	"strings"
 	"sync"
+
+	"github.com/joho/godotenv"
 )
 
 type myFile struct{
-	category string
-	name string
-	weight int64
-	weight_name string 
+	Category 	string 	`json:"category"`
+	Name 		string	`json:"name"`	
+	Weight 		int64	`json:"weight"`
+	Weight_name string 	`json:"weight_name"`
 }
 
 type ByWeight []myFile
 
 func (a ByWeight) Len() int           { return len(a) }
-func (a ByWeight) Less(i, j int) bool { return a[i].weight < a[j].weight }
+func (a ByWeight) Less(i, j int) bool { return a[i].Weight < a[j].Weight }
 func (a ByWeight) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 
-func main() {
-	
-	path := flag.String("root", "~/", "Введите путь")
-	type_sort := flag.String("sort", "desc", "Введите вид сортировки ")
+func handler(w http.ResponseWriter, r *http.Request)  {
+	if r.Method == "GET"{
+		query := r.URL.Query()
 
-	flag.Parse()
+		w.Header().Set("Content-Type", "application/json")
 
-	expandedPath, err := checkPath(*path)
+		path := query.Get("root")
+		type_sort := query.Get("sort")
 
-	if err != nil{
-		fmt.Println("Ошибка проверки пути", err)
-		return
-	}
-
-	files, err := os.ReadDir(expandedPath)
-	if err != nil{
-		fmt.Println("Ошибка при чтении директории main", err)
-		return
-	}
-	
-	wg := sync.WaitGroup{}
-
-	count := 0
-
-	array := make([]myFile, len(files))
-
-	for idx, file := range files{
-
-		finfo, err := file.Info()
+		expandedPath, err := checkPath(path)
 
 		if err != nil{
-			fmt.Println("Ошибка информации о файле")
-			idx--
-			continue
+			http.Error(w, "Ошибка проверки пути", http.StatusBadRequest)
+			return
 		}
-		wg.Add(1)
-		go func(fileinfo fs.FileInfo, c int) {
-			defer wg.Done()
-			if fileinfo.IsDir(){
-				size := getSize(expandedPath + "/" + fileinfo.Name()) + fileinfo.Size()
 
-				array[c] = myFile{"d", fileinfo.Name(), size, "Bytes"}
-			}else{
-				array[c] = myFile{"f", fileinfo.Name(), fileinfo.Size(), "Bytes"}
+		files, err := os.ReadDir(expandedPath)
+		if err != nil{
+			http.Error(w, "Ошибка при чтении директории", http.StatusBadRequest)
+			return
+		}
+	
+		wg := sync.WaitGroup{}
+
+		count := 0
+
+		array := make([]myFile, len(files))
+
+		for idx, file := range files{
+
+			finfo, err := file.Info()
+
+			if err != nil{
+				fmt.Println("Ошибка информации о файле")
+				idx--
+				continue
 			}
-		}(finfo, count)
+			wg.Add(1)
+			go func(fileinfo fs.FileInfo, c int) {
+				defer wg.Done()
+				if fileinfo.IsDir(){
+					size := getSize(expandedPath + "/" + fileinfo.Name()) + fileinfo.Size()
 
-		count += 1
-	}
+					array[c] = myFile{"d", fileinfo.Name(), size, "Bytes"}
+				}else{
+					array[c] = myFile{"f", fileinfo.Name(), fileinfo.Size(), "Bytes"}
+				}
+			}(finfo, count)
 
-	wg.Wait()
-
-	if *type_sort == "desc"{
-		sort.Slice(array, func(i, j int) bool {
-			return array[i].weight > array[j].weight
-		})
-		for _, v := range array{
-			v.weight, v.weight_name = convertBytes(v.weight)
-			fmt.Println(v)
+			count += 1
 		}
 
-	}else{
+		wg.Wait()
 
-	sort.Sort(ByWeight(array))
-	for _, v := range array{
-		v.weight, v.weight_name = convertBytes(v.weight)
-		fmt.Println(v)
-	}
+		if type_sort == "desc"{
+			sort.Slice(array, func(i, j int) bool {
+				return array[i].Weight > array[j].Weight
+			})
+			if err := json.NewEncoder(w).Encode(array); err != nil{
+				http.Error(w, "Ошибка кодировки json", http.StatusInternalServerError)
+			}
+		}else if type_sort == "asc"{
+			sort.Sort(ByWeight(array))
+			if err := json.NewEncoder(w).Encode(array); err != nil{
+				http.Error(w, "Ошибка кодировки json", http.StatusInternalServerError)
+			}
+		}else{
+			http.Error(w, "Ошибка выбора сортировки", http.StatusBadRequest)
+		}
 	}
 }
 
+func main() {
+	err := godotenv.Load()
 
+	if err != nil{
+		log.Fatal("Ошибка чтения .env файла")
+	}
 
+	port := os.Getenv("PORT")
+
+	http.HandleFunc("/fs", handler)
+
+	err = http.ListenAndServe(port, nil)
+
+	if err != nil{
+		log.Fatal("Ошибка запуска веб-сервера")
+	}
+}
 
 func getSize(path string) int64 {
 
