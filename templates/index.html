@@ -1,40 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File List</title>
-    <link rel="stylesheet" type="text/css" href="/static/style.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File List</title>
+  <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
-<body>
-    <h1>File List</h1>
+<body class="page">
+  <header class="header">
+    <h1 class="title">File List</h1>
+  </header>
 
-    <div class="container">
-        <a href="#" class="button">Sort Ascending</a>
-        <a href="#" class="button">Sort Descending</a>
-        <a href="#" class="button">Back</a>
-    </div>
+  <nav class="button-container">
+    <a href="/fs?sort=asc" class="button sort-asc">Sort Ascending</a>
+    <a href="/fs?sort=desc" class="button sort-desc">Sort Descending</a>
+    <a href="/back" class="button back">Back</a>
+  </nav>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Category</th>
-                <th>Name</th>
-                <th>Weight</th>
-                <th>Weight Name</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{range .}}
-            <tr>
-                <td>{{.Category}}</td>
-                <td>{{.Name}}</td>
-                <td>{{.Weight}}</td>
-                <td>{{.Weight_name}}</td>
-            </tr>
-            {{end}}
-        </tbody>
+  <main class="content">
+    <table class="file-table">
+      <thead class="table-header">
+        <tr class="table-row">
+          <th class="table-cell">Category</th>
+          <th class="table-cell">Name</th>
+          <th class="table-cell">Weight</th>
+          <th class="table-cell">Weight Name</th>
+        </tr>
+      </thead>
+      <tbody class="table-body">
+        {{range .}}
+        <tr class="table-row">
+          <td class="table-cell">{{.Category}}</td>
+          <td class="table-cell">{{.Name}}</td>
+          <td class="table-cell">{{.Weight}}</td>
+          <td class="table-cell">{{.Weight_name}}</td>
+        </tr>
+        {{end}}
+      </tbody>
     </table>
+  </main>
 </body>
 </html>
