@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/json"
+	// "encoding/json"
 	"fmt"
 	"io/fs"
 	"log"
@@ -11,6 +11,7 @@ import (
 	"sort"
 	"strings"
 	"sync"
+	"text/template"
 
 	"github.com/joho/godotenv"
 )
@@ -32,7 +33,7 @@ func handler(w http.ResponseWriter, r *http.Request)  {
 	if r.Method == "GET"{
 		query := r.URL.Query()
 
-		w.Header().Set("Content-Type", "application/json")
+		// w.Header().Set("Content-Type", "application/json")
 
 		path := query.Get("root")
 		type_sort := query.Get("sort")
@@ -82,6 +83,12 @@ func handler(w http.ResponseWriter, r *http.Request)  {
 
 		wg.Wait()
 
+		tmpl, err := template.ParseFiles("templates/index.html")
+
+		if err != nil{
+			log.Fatal(err)
+		}
+
 		if type_sort == "desc"{
 			sort.Slice(array, func(i, j int) bool {
 				return array[i].Weight > array[j].Weight
@@ -89,17 +96,25 @@ func handler(w http.ResponseWriter, r *http.Request)  {
 			for i := range array {
 				array[i].Weight, array[i].Weight_name = convertBytes(array[i].Weight)
 			}
-			if err := json.NewEncoder(w).Encode(array); err != nil{
-				http.Error(w, "Ошибка кодировки json", http.StatusInternalServerError)
+			err = tmpl.Execute(w, array)
+			if err != nil {
+				log.Println("Ошибка создания шаблона")
 			}
+			// if err := json.NewEncoder(w).Encode(array); err != nil{
+			// 	http.Error(w, "Ошибка кодировки json", http.StatusInternalServerError)
+			// }
 		}else if type_sort == "asc"{
 			sort.Sort(ByWeight(array))
 			for i := range array {
 				array[i].Weight, array[i].Weight_name = convertBytes(array[i].Weight)
 			}
-			if err := json.NewEncoder(w).Encode(array); err != nil{
-				http.Error(w, "Ошибка кодировки json", http.StatusInternalServerError)
+			err = tmpl.Execute(w, array)
+			if err != nil {
+				log.Println("Ошибка создания шаблона")
 			}
+			// if err := json.NewEncoder(w).Encode(array); err != nil{
+			// 	http.Error(w, "Ошибка кодировки json", http.StatusInternalServerError)
+			// }
 		}else{
 			http.Error(w, "Ошибка выбора сортировки", http.StatusBadRequest)
 		}
@@ -115,12 +130,12 @@ func main() {
 
 	port := os.Getenv("PORT")
 
+	log.Println("Starting server on port", port)
+
 	http.HandleFunc("/fs", handler)
 
-	err = http.ListenAndServe(port, nil)
-
-	if err != nil{
-		log.Fatal("Ошибка запуска веб-сервера")
+	if err := http.ListenAndServe(port, nil); err != nil{
+		log.Fatal("Error starting server...")
 	}
 }
 
@@ -158,7 +173,7 @@ func checkPath(path string) (string, error) {
 
 	var err error
 
-	if strings.HasPrefix(path, "~/"){
+	if strings.HasPrefix(path, "~"){
 
 		home_path, err := os.UserHomeDir()
 
@@ -166,7 +181,7 @@ func checkPath(path string) (string, error) {
 			fmt.Println("Ошибка путя с префиксом", err)
 			return "", err
 		}
-		path = strings.Replace(path, "~/", home_path + "/", 1)
+		path = strings.Replace(path, "~", home_path, 1)
 
 		fmt.Println(path)
 	}else{
