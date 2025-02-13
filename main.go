@@ -38,6 +38,14 @@ func handler(w http.ResponseWriter, r *http.Request)  {
 		path := query.Get("root")
 		type_sort := query.Get("sort")
 
+		if len(query) == 0{
+			path = "./"
+			type_sort = "desc"
+		}
+		if type_sort == ""{
+			type_sort = "desc"
+		}
+
 		expandedPath, err := checkPath(path)
 
 		if err != nil{
@@ -132,8 +140,12 @@ func main() {
 
 	log.Println("Starting server on port", port)
 
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/fs", http.StatusFound)
+	})
+	
 	http.HandleFunc("/fs", handler)
-
+	
 	if err := http.ListenAndServe(port, nil); err != nil{
 		log.Fatal("Error starting server...")
 	}
