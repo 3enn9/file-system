@@ -2,16 +2,20 @@ package main
 
 import (
 	// "encoding/json"
+	"context"
 	"fmt"
 	"io/fs"
 	"log"
 	"net/http"
 	"os"
+	"os/signal"
 	"path/filepath"
 	"sort"
 	"strings"
 	"sync"
+	"syscall"
 	"text/template"
+	"time"
 
 	"github.com/joho/godotenv"
 )
@@ -30,6 +34,7 @@ func (a ByWeight) Less(i, j int) bool { return a[i].Weight < a[j].Weight }
 func (a ByWeight) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 
 func handler(w http.ResponseWriter, r *http.Request)  {
+	log.Println(r.Method, r.URL)
 	if r.Method == "GET"{
 		query := r.URL.Query()
 
@@ -138,18 +143,36 @@ func main() {
 
 	port := os.Getenv("PORT")
 
-	log.Println("Starting server on port", port)
+	server := &http.Server{
+		Addr: port,
+		Handler: nil,
+	}
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
+	http.HandleFunc("/fs", handler)
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/fs", http.StatusFound)
 	})
 
-	http.HandleFunc("/fs", handler)
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
 	
-	if err := http.ListenAndServe(port, nil); err != nil{
-		log.Fatal("Error starting server...")
+	go func() {
+		log.Println("Starting server on port", port)
+		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed{
+			log.Fatal("Error starting server...")
+		}
+	}()
+
+	sig :=  <- sigChan
+
+	log.Println("Получен сигнал, начинаем завершение работы", sig)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	if err := server.Shutdown(ctx);err != nil{
+		log.Fatalf("Ошибка при завершении работы сервера %v", err)
 	}
 }
 
@@ -178,7 +201,6 @@ func getSize(path string) int64 {
 		}else{
 			size += file.Size()
 		}
-
 	}
 	return size
 }
