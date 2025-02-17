@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"io/fs"
+	"math"
 	"os"
 	"path/filepath"
 
@@ -61,7 +62,7 @@ func main() {
 		go func(fileinfo fs.FileInfo, c int) {
 			defer wg.Done()
 			if fileinfo.IsDir(){
-				size := getSize(expandedPath + "/" + fileinfo.Name()) + fileinfo.Size()
+				size := getSize(expandedPath + "/" + fileinfo.Name()) + fileinfo.Size() - 4096
 
 				array[c] = myFile{"d", fileinfo.Name(), float64(size), "Bytes"}
 			}else{
@@ -116,7 +117,6 @@ func getSize(path string) int64 {
 		}
 		size += file.Size()
 		if file.IsDir(){
-			
 			size += getSize(path + "/" + file.Name())
 		}
 
@@ -159,11 +159,11 @@ func convertBytes(bytes float64) (float64, string) {
 	)
 
 	if bytes >= GB {
-		return bytes / GB, "GB"
+		return math.Round(bytes / GB * 10) / 10, "GB"
 	} else if bytes >= MB {
-		return bytes / MB, "MB"
+		return math.Round(bytes / MB * 10) / 10, "MB"
 	} else if bytes >= KB {
-		return bytes / KB, "KB"
+		return math.Round(bytes / KB * 10) / 10, "KB"
 	}
 	return bytes, "Bytes"
 }
