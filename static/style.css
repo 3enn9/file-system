@@ -1,79 +1,106 @@
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-.page {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
-    padding: 20px;
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #e8f5e9; /* Светло-зелёный фон */
+  margin: 0;
+  padding: 0;
+  color: #333;
 }
 
 .header {
-    text-align: center;
-    margin-bottom: 20px;
+  text-align: center;
+  background: linear-gradient(135deg, #4CAF50, #388E3C);
+  color: white;
+  padding: 25px 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.title {
-    font-size: 2em;
-    color: #4CAF50;
+.header__title {
+  font-size: 2.2rem;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
 }
 
-.button-container {
-    text-align: center;
-    margin-bottom: 20px;
+.nav {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 25px 0;
 }
 
 .button {
-    display: inline-block;
-    padding: 10px 20px;
-    margin: 5px;
-    background-color: #4CAF50;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 4px;
-    transition: background-color 0.3s;
+  padding: 12px 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  background: linear-gradient(135deg, #2c6e2f, #1b5e20);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
 }
 
 .button:hover {
-    background-color: #45a049;
+  background: linear-gradient(135deg, #45a049, #2e7d32);
+  transform: scale(1.07);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.2);
 }
 
 .content {
-    max-width: 800px;
-    margin: 0 auto;
+  padding: 25px;
+  margin: 0 auto;
+  max-width: 1200px;
 }
 
 .file-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: #fff;
-    margin-bottom: 20px;
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: white;
 }
 
-.table-header th {
-    background-color: #4CAF50;
-    color: #fff;
-    padding: 12px;
-    text-align: left;
+.file-table__header {
+  background: linear-gradient(135deg, #4CAF50, #388E3C);
+  color: white;
+  font-size: 1.1rem;
 }
 
-.table-body tr:nth-child(even) {
-    background-color: #f9f9f9;
+.file-table__cell {
+  padding: 14px;
+  text-align: left;
+  border: 1px solid #ddd;
 }
 
-.table-row {
-    border-bottom: 1px solid #ddd;
+.file-table__row:nth-child(even) {
+  background-color: #f1f8f1;
 }
 
-.table-cell {
-    padding: 12px;
-    text-align: left;
+.file-table__row:hover {
+  background-color: rgba(0, 150, 0, 0.15);
+  transition: background-color 0.3s ease;
 }
 
-.table-body tr:hover {
-    background-color: #f1f1f1;
+/* Улучшенные стили для заголовков */
+th {
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
+
+.file-table__cell {
+  font-size: 1rem;
+}
+
+/* Добавляем плавный эффект при наведении */
+.table-row:hover {
+  background-color: rgba(0, 128, 0, 0.2);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.table-row:hover td {
+  transform: scale(1.02);
+}
+

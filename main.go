@@ -1,8 +1,8 @@
 package main
 
 import (
-	// "encoding/json"
 	"context"
+	"encoding/json"
 	"fmt"
 	"io/fs"
 	"log"
@@ -14,7 +14,6 @@ import (
 	"strings"
 	"sync"
 	"syscall"
-	"text/template"
 	"time"
 
 	"github.com/joho/godotenv"
@@ -38,7 +37,7 @@ func handler(w http.ResponseWriter, r *http.Request)  {
 	if r.Method == "GET"{
 		query := r.URL.Query()
 
-		// w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("Content-Type", "application/json")
 
 		path := query.Get("root")
 		type_sort := query.Get("sort")
@@ -66,8 +65,6 @@ func handler(w http.ResponseWriter, r *http.Request)  {
 	
 		wg := sync.WaitGroup{}
 
-		count := 0
-
 		array := make([]myFile, len(files))
 
 		for idx, file := range files{
@@ -76,31 +73,23 @@ func handler(w http.ResponseWriter, r *http.Request)  {
 
 			if err != nil{
 				fmt.Println("Ошибка информации о файле")
-				idx--
 				continue
 			}
 			wg.Add(1)
 			go func(fileinfo fs.FileInfo, c int) {
 				defer wg.Done()
 				if fileinfo.IsDir(){
-					size := getSize(expandedPath + "/" + fileinfo.Name()) + fileinfo.Size()
+					size := getSize(expandedPath + "/" + fileinfo.Name()) + fileinfo.Size() - 4096
 
 					array[c] = myFile{"d", fileinfo.Name(), size, "Bytes"}
 				}else{
 					array[c] = myFile{"f", fileinfo.Name(), fileinfo.Size(), "Bytes"}
 				}
-			}(finfo, count)
+			}(finfo, idx)
 
-			count += 1
 		}
 
 		wg.Wait()
-
-		tmpl, err := template.ParseFiles("templates/index.html")
-
-		if err != nil{
-			log.Fatal(err)
-		}
 
 		if type_sort == "desc"{
 			sort.Slice(array, func(i, j int) bool {
@@ -109,25 +98,19 @@ func handler(w http.ResponseWriter, r *http.Request)  {
 			for i := range array {
 				array[i].Weight, array[i].Weight_name = convertBytes(array[i].Weight)
 			}
-			err = tmpl.Execute(w, array)
-			if err != nil {
-				log.Println("Ошибка создания шаблона")
+
+			if err := json.NewEncoder(w).Encode(array); err != nil{
+				http.Error(w, "Ошибка кодировки json", http.StatusInternalServerError)
 			}
-			// if err := json.NewEncoder(w).Encode(array); err != nil{
-			// 	http.Error(w, "Ошибка кодировки json", http.StatusInternalServerError)
-			// }
 		}else if type_sort == "asc"{
 			sort.Sort(ByWeight(array))
 			for i := range array {
 				array[i].Weight, array[i].Weight_name = convertBytes(array[i].Weight)
 			}
-			err = tmpl.Execute(w, array)
-			if err != nil {
-				log.Println("Ошибка создания шаблона")
+
+			if err := json.NewEncoder(w).Encode(array); err != nil{
+				http.Error(w, "Ошибка кодировки json", http.StatusInternalServerError)
 			}
-			// if err := json.NewEncoder(w).Encode(array); err != nil{
-			// 	http.Error(w, "Ошибка кодировки json", http.StatusInternalServerError)
-			// }
 		}else{
 			http.Error(w, "Ошибка выбора сортировки", http.StatusBadRequest)
 		}
@@ -148,12 +131,24 @@ func main() {
 		Handler: nil,
 	}
 
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+	absPath, err := filepath.Abs(".")
+	if err != nil{
+		fmt.Println("Ошибка текущего путя")
+	}
 
-	http.HandleFunc("/fs", handler)
+	fs := http.FileServer(http.Dir("./static"))
+
+	http.HandleFunc("/api/fs", handler)
+
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/fs", http.StatusFound)
+		if r.URL.RawQuery == "" {
+			http.Redirect(w, r, "/index.html?root="+absPath+"&sort=desc", http.StatusFound)
+			return
+		}
+		http.ServeFile(w, r, "./static/index.html")
 	})
+
+	http.Handle("/static/", http.StripPrefix("/static", fs))
 
 	sigChan := make(chan os.Signal, 1)
 	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
@@ -194,12 +189,9 @@ func getSize(path string) int64 {
 			fmt.Println("Ошибка информации о файле")
 			continue
 		}
-
+		size += file.Size()
 		if file.IsDir(){
-			size += file.Size()
 			size += getSize(path + "/" + file.Name())
-		}else{
-			size += file.Size()
 		}
 	}
 	return size

@@ -1,60 +1,89 @@
+document.addEventListener("DOMContentLoaded", updateTable);
 
-const currentPath = window.location.pathname;
-console.log(currentPath);
-document.addEventListener("DOMContentLoaded", function() {
+function updateTable() {
+  const params = new URLSearchParams(window.location.search);
+  let root = params.get("root") || "/";
+  const sort = params.get("sort") || "desc";
 
-  const rows = document.querySelectorAll(".table-row");
-  const sortAscButton = document.querySelector(".sort-asc");
-  const sortDescButton = document.querySelector(".sort-desc");
-  const BackButton = document.querySelector(".back");
+  fetch(`/api/fs?root=${encodeURIComponent(root)}&sort=${sort}`)
+    .then(response => response.json())
+    .then(data => {
+      console.log("Полученные данные:", data);
+      renderTable(data, root);
+    })
+    .catch(error => console.error("Ошибка при получении данных:", error));
+}
+ 
+function renderTable(files, root) {
+  const tableBody = document.querySelector(".file-table tbody");
+  tableBody.innerHTML = "";
 
-  const queryString = window.location.search
-  const urlParams = new URLSearchParams(queryString);
-  
-  rootPath = urlParams.get("root")
+  files.forEach(file => {
+    const row = document.createElement("tr");
+    row.classList.add("table-row");
 
-  if (rootPath == null || rootPath == "") {
-    rootPath = ".";
-  }
-  rows.forEach(function(row) {
+    row.innerHTML = `
+      <td class="table-cell">${file.category}</td>
+      <td class="table-cell ${file.category === "d" ? "folder" : ""}" data-name="${file.name}">${file.name}</td>
+      <td class="table-cell">${file.weight}</td>
+      <td class="table-cell">${file.weight_name}</td>
+    `;
 
-    row.addEventListener("click", function(event) {
-      const nameValue = row.children[1].innerText
-      const redirectUrl = currentPath + "?root=" + rootPath + "/" + nameValue
-      window.location.href = redirectUrl
-    });
-  });
+    if (file.category === "d") {
+      row.querySelector(".folder").addEventListener("click", function() {
+        let newRoot = root.endsWith("/") ? root + file.name : root + "/" + file.name;
 
-  sortAscButton.addEventListener("click", function(event){
-    event.preventDefault();
-    handleSort("asc")
-  })
+        // Меняем URL без перезагрузки страницы
+        history.pushState({ root: newRoot }, "", `?root=${encodeURIComponent(newRoot)}&sort=desc`);
 
-  sortDescButton.addEventListener("click", function(event){
-    event.preventDefault();
-    handleSort("desc")
-  })
+        // Загружаем новые данные
+        updateTable();
+      });
 
-  BackButton.addEventListener("click", function(event){
-    event.preventDefault();
-    const url = new URL(window.location.href)
-    let root = url.searchParams.get("root")
-
-    if (root && root.length !== 1){
-      const pathSegment = root.split("/").filter(segmet => segmet);
-      pathSegment.pop();
-
-      root = pathSegment.join("/");
-      url.searchParams.set("root", root);
-
-      window.location.href = url.toString();
+      row.style.cursor = "pointer";
+      row.style.fontWeight = "bold";
     }
-  })
 
-  function handleSort(order) {
-    const url = new URL(window.location.href);
-    const encodedOrder = order.replace("/", "_");
-    url.searchParams.set("sort", encodedOrder);
-    window.location.href = url.toString()
+    tableBody.appendChild(row);
+  });
+}
+
+const sortAscButton = document.querySelector(".button--sort-asc");
+const sortDescButton = document.querySelector(".button--sort-desc");
+const backButton = document.querySelector(".button--back");
+
+// Добавляем обработчики для кнопок сортировки
+sortAscButton.addEventListener("click", function() {
+  const params = new URLSearchParams(window.location.search);
+  let root = params.get("root") || "/";  // Получаем актуальный root из URL
+  history.pushState({ root: root }, "", `?root=${encodeURIComponent(root)}&sort=asc`);
+  updateTable();
+});
+
+
+sortDescButton.addEventListener("click", function() {
+  const params = new URLSearchParams(window.location.search);
+  let root = params.get("root") || "/";  // Получаем актуальный root из URL
+  history.pushState({ root: root }, "", `?root=${encodeURIComponent(root)}&sort=desc`);
+  updateTable();
+});
+
+// Кнопка назад
+backButton.addEventListener("click", function(){
+  const params = new URLSearchParams(window.location.search);
+  let root = params.get("root") || "/";
+  let newRoot = root.split("/").slice(0, -1).join("/")
+
+  if (newRoot === "") {
+    newRoot = "/";
   }
+  history.pushState({ root: newRoot }, "", `?root=${encodeURIComponent(newRoot)}&sort=desc`);
+  
+  updateTable();
+
+});
+
+// Обрабатываем изменение URL при нажатии "Назад" в браузере
+window.addEventListener("popstate", function(event) {
+  updateTable();
 });

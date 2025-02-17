@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File List</title>
+  <link rel="stylesheet" type="text/css" href="/static/style.css">
+</head>
+<body class="page">
+  <header class="header">
+    <h1 class="header__title">File List</h1>
+  </header>
+
+  <nav class="nav">
+    <button class="button button--sort-asc">Sort Ascending</button>
+    <button class="button button--sort-desc">Sort Descending</button>
+    <button class="button button--back">Back</button>
+  </nav>
+
+  <main class="content">
+    <table class="file-table">
+      <thead class="file-table__header">
+        <tr class="file-table__row">
+          <th class="file-table__cell">Category</th>
+          <th class="file-table__cell">Name</th>
+          <th class="file-table__cell">Weight</th>
+          <th class="file-table__cell">Weight Name</th>
+        </tr>
+      </thead>
+      <tbody class="file-table__body">
+      </tbody>
+    </table>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
