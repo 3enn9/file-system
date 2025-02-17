@@ -96,14 +96,14 @@ func main() {
 
 
 
-
+// getSize возвращает вес файла по его пути
 func getSize(path string) int64 {
 
 	var size int64
 	files, err := os.ReadDir(path)
 
 	if err != nil{
-		fmt.Println("Ошибка при чтении директории getsize", err)
+		fmt.Printf("Ошибка при чтении директории %s %v", path, err)
 		return 0
 	}
 
@@ -124,6 +124,7 @@ func getSize(path string) int64 {
 	return size
 }
 
+// checkPath проверяем путь на правильность
 func checkPath(path string) (string, error) {
 
 	var err error
@@ -150,7 +151,7 @@ func checkPath(path string) (string, error) {
 	return path, nil
 }
 
-
+// convertBytes переводит байты в КБ, МБ, ГБ
 func convertBytes(bytes float64) (float64, string) {
 	const (
 		KB = 1000
