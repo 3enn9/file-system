@@ -15,7 +15,7 @@ import (
 type myFile struct{
 	category string
 	name string
-	weight int64
+	weight float64
 	weight_name string 
 }
 
@@ -47,8 +47,6 @@ func main() {
 	
 	wg := sync.WaitGroup{}
 
-	count := 0
-
 	array := make([]myFile, len(files))
 
 	for idx, file := range files{
@@ -57,7 +55,6 @@ func main() {
 
 		if err != nil{
 			fmt.Println("Ошибка информации о файле")
-			idx--
 			continue
 		}
 		wg.Add(1)
@@ -66,13 +63,13 @@ func main() {
 			if fileinfo.IsDir(){
 				size := getSize(expandedPath + "/" + fileinfo.Name()) + fileinfo.Size()
 
-				array[c] = myFile{"d", fileinfo.Name(), size, "Bytes"}
+				array[c] = myFile{"d", fileinfo.Name(), float64(size), "Bytes"}
 			}else{
-				array[c] = myFile{"f", fileinfo.Name(), fileinfo.Size(), "Bytes"}
+				array[c] = myFile{"f", fileinfo.Name(), float64(fileinfo.Size()), "Bytes"}
 			}
-		}(finfo, count)
+		}(finfo, idx)
 
-		count += 1
+		idx += 1
 	}
 
 	wg.Wait()
@@ -81,17 +78,17 @@ func main() {
 		sort.Slice(array, func(i, j int) bool {
 			return array[i].weight > array[j].weight
 		})
-		for _, v := range array{
-			v.weight, v.weight_name = convertBytes(v.weight)
-			fmt.Println(v)
+		for i := range array {
+			array[i].weight, array[i].weight_name = convertBytes(array[i].weight)
+			fmt.Println(array[i])
 		}
 
 	}else{
 
 	sort.Sort(ByWeight(array))
-	for _, v := range array{
-		v.weight, v.weight_name = convertBytes(v.weight)
-		fmt.Println(v)
+	for i := range array {
+		array[i].weight, array[i].weight_name = convertBytes(array[i].weight)
+		fmt.Println(array[i])
 	}
 	}
 }
@@ -117,12 +114,10 @@ func getSize(path string) int64 {
 			fmt.Println("Ошибка информации о файле")
 			continue
 		}
-
+		size += file.Size()
 		if file.IsDir(){
-			size += file.Size()
+			
 			size += getSize(path + "/" + file.Name())
-		}else{
-			size += file.Size()
 		}
 
 	}
@@ -156,7 +151,7 @@ func checkPath(path string) (string, error) {
 }
 
 
-func convertBytes(bytes int64) (int64, string) {
+func convertBytes(bytes float64) (float64, string) {
 	const (
 		KB = 1000
 		MB = KB * 1000
