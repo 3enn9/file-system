@@ -7,6 +7,7 @@ import (
 	"math"
 	"os"
 	"path/filepath"
+	"time"
 
 	"sort"
 	"strings"
@@ -27,7 +28,10 @@ func (a ByWeight) Less(i, j int) bool { return a[i].weight < a[j].weight }
 func (a ByWeight) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 
 func main() {
-	
+	start := time.Now()
+	defer func ()  {
+		fmt.Println("Прошло времени", time.Since(start))
+	}()
 	path := flag.String("root", "~/", "Введите путь")
 	type_sort := flag.String("sort", "desc", "Введите вид сортировки ")
 
