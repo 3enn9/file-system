@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/fs"
 	"log"
@@ -130,8 +131,7 @@ func checkPath(path string) (string, error) {
 		home_path, err := os.UserHomeDir()
 
 		if err != nil{
-			fmt.Println("Ошибка путя с префиксом", err)
-			return "", err
+			return "", fmt.Errorf("Ошибка путя с префиксом %s %w", home_path, err)
 		}
 		path = strings.Replace(path, "~", home_path, 1)
 
@@ -139,10 +139,8 @@ func checkPath(path string) (string, error) {
 	}else{
 		path, err = filepath.Abs(os.ExpandEnv(path))
 		if err != nil{
-			fmt.Println("Ошибка относительно директории")
-			return "", err
+			return "", fmt.Errorf("Ошибка относительно директории %s %w", path, err)
 		}
-
 	}
 	return path, nil
 }
@@ -208,7 +206,7 @@ func handler(w http.ResponseWriter, r *http.Request)  {
 			finfo, err := file.Info()
 
 			if err != nil{
-				fmt.Println("Ошибка информации о файле")
+				fmt.Println("Ошибка информации о файле", err)
 				continue
 			}
 			wg.Add(1)
@@ -224,36 +222,37 @@ func handler(w http.ResponseWriter, r *http.Request)  {
 			}(finfo, idx)
 
 		}
-
 		wg.Wait()
+		
+		if err := sortFiles(type_sort, array); err != nil{
+			http.Error(w, "Ошибка выбора сортировки: " + err.Error(), http.StatusBadRequest)
+			return
+		}
 
-		// Сортировка
-		if type_sort == "desc"{
-			sort.Slice(array, func(i, j int) bool {
-				return array[i].Weight > array[j].Weight
-			})
-			for i := range array {
-				array[i].Weight, array[i].Weight_name = convertBytes(array[i].Weight)
-			}
-
-			if err := json.NewEncoder(w).Encode(array); err != nil{
-				http.Error(w, "Ошибка кодировки json", http.StatusInternalServerError)
-			}
-		}else if type_sort == "asc"{
-			sort.Sort(ByWeight(array))
-			for i := range array {
-				array[i].Weight, array[i].Weight_name = convertBytes(array[i].Weight)
-			}
-
-			if err := json.NewEncoder(w).Encode(array); err != nil{
-				http.Error(w, "Ошибка кодировки json", http.StatusInternalServerError)
-			}
-		}else{
-			http.Error(w, "Ошибка выбора сортировки", http.StatusBadRequest)
+		if err := json.NewEncoder(w).Encode(array); err != nil{
+			http.Error(w, "Ошибка кодировки json", http.StatusInternalServerError)
 		}
 	}
 }
 
-func sortFiles(type_sort string, array []myFile)  {
-	
+// sortFiles сортировка файлов
+func sortFiles(type_sort string, array []myFile) error {
+	switch type_sort {
+	case "desc":
+		sort.Slice(array, func(i, j int) bool {
+			return array[i].Weight > array[j].Weight
+		})
+	case "asc":
+		sort.Slice(array, func(i, j int) bool {
+			return array[i].Weight < array[j].Weight
+		})
+	default:
+		return errors.New("Неверный тип сортировки")
+	}
+
+	for i := range array {
+		array[i].Weight, array[i].Weight_name = convertBytes(array[i].Weight)
+	}
+
+	return nil
 }
