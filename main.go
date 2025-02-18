@@ -34,10 +34,15 @@ func (a ByWeight) Less(i, j int) bool { return a[i].Weight < a[j].Weight }
 func (a ByWeight) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 
 func main() {
+	start := time.Now()
+	defer func ()  {
+		log.Println("Время работы сервера:", time.Since(start))
+	}()
+
 	err := godotenv.Load()
 
 	if err != nil{
-		log.Fatal("Ошибка чтения .env файла")
+		log.Fatal("Ошибка чтения .env файла", err)
 	}
 
 	port := os.Getenv("PORT")
@@ -49,7 +54,7 @@ func main() {
 
 	absPath, err := filepath.Abs(".")
 	if err != nil{
-		fmt.Println("Ошибка текущего путя")
+		fmt.Println("Ошибка текущего путя", err)
 	}
 
 	fs := http.FileServer(http.Dir("./static"))
@@ -95,7 +100,7 @@ func getSize(path string) int64 {
 	files, err := os.ReadDir(path)
 
 	if err != nil{
-		fmt.Println("Ошибка при чтении директории getsize", err)
+		fmt.Println("Ошибка при чтении директории", err)
 		return 0
 	}
 
@@ -104,7 +109,7 @@ func getSize(path string) int64 {
 		file, err := file.Info()
 
 		if err != nil{
-			fmt.Println("Ошибка информации о файле")
+			fmt.Println("Ошибка информации о файле", err)
 			continue
 		}
 		size += file.Size()
@@ -195,7 +200,7 @@ func handler(w http.ResponseWriter, r *http.Request)  {
 		wg := sync.WaitGroup{}
 
 		array := make([]myFile, len(files))
-		
+
 		for idx, file := range files{
 
 			finfo, err := file.Info()
