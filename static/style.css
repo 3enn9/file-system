@@ -84,10 +84,10 @@ th {
 .table-row {
   height: 50px;
   font-size: 16px;
-  transition: background-color 0.3s ease, transform 0.2s ease; /* Плавные эффекты */
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .table-row:hover {
-  background-color: rgba(0, 128, 0, 0.2); /* Подсветка строки при наведении */
+  background-color: rgba(0, 128, 0, 0.2);
 }
 

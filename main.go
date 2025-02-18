@@ -33,91 +33,6 @@ func (a ByWeight) Len() int           { return len(a) }
 func (a ByWeight) Less(i, j int) bool { return a[i].Weight < a[j].Weight }
 func (a ByWeight) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 
-func handler(w http.ResponseWriter, r *http.Request)  {
-	log.Println(r.Method, r.URL)
-	if r.Method == "GET"{
-		query := r.URL.Query()
-
-		w.Header().Set("Content-Type", "application/json")
-
-		path := query.Get("root")
-		type_sort := query.Get("sort")
-
-		if len(query) == 0{
-			path = "./"
-			type_sort = "desc"
-		}
-		if type_sort == ""{
-			type_sort = "desc"
-		}
-
-		expandedPath, err := checkPath(path)
-
-		if err != nil{
-			http.Error(w, "Ошибка проверки пути", http.StatusBadRequest)
-			return
-		}
-
-		files, err := os.ReadDir(expandedPath)
-		if err != nil{
-			http.Error(w, "Ошибка при чтении директории", http.StatusBadRequest)
-			return
-		}
-	
-		wg := sync.WaitGroup{}
-
-		array := make([]myFile, len(files))
-
-		for idx, file := range files{
-
-			finfo, err := file.Info()
-
-			if err != nil{
-				fmt.Println("Ошибка информации о файле")
-				continue
-			}
-			wg.Add(1)
-			go func(fileinfo fs.FileInfo, c int) {
-				defer wg.Done()
-				if fileinfo.IsDir(){
-					size := getSize(expandedPath + "/" + fileinfo.Name()) + fileinfo.Size() - 4096
-
-					array[c] = myFile{"d", fileinfo.Name(), float64(size), "Bytes"}
-				}else{
-					array[c] = myFile{"f", fileinfo.Name(), float64(fileinfo.Size()), "Bytes"}
-				}
-			}(finfo, idx)
-
-		}
-
-		wg.Wait()
-
-		if type_sort == "desc"{
-			sort.Slice(array, func(i, j int) bool {
-				return array[i].Weight > array[j].Weight
-			})
-			for i := range array {
-				array[i].Weight, array[i].Weight_name = convertBytes(array[i].Weight)
-			}
-
-			if err := json.NewEncoder(w).Encode(array); err != nil{
-				http.Error(w, "Ошибка кодировки json", http.StatusInternalServerError)
-			}
-		}else if type_sort == "asc"{
-			sort.Sort(ByWeight(array))
-			for i := range array {
-				array[i].Weight, array[i].Weight_name = convertBytes(array[i].Weight)
-			}
-
-			if err := json.NewEncoder(w).Encode(array); err != nil{
-				http.Error(w, "Ошибка кодировки json", http.StatusInternalServerError)
-			}
-		}else{
-			http.Error(w, "Ошибка выбора сортировки", http.StatusBadRequest)
-		}
-	}
-}
-
 func main() {
 	err := godotenv.Load()
 
@@ -172,6 +87,8 @@ func main() {
 	}
 }
 
+
+//	getSize возвращает размер файла, директории
 func getSize(path string) int64 {
 
 	var size int64
@@ -198,6 +115,7 @@ func getSize(path string) int64 {
 	return size
 }
 
+// checkPath валидация пути к root
 func checkPath(path string) (string, error) {
 
 	var err error
@@ -224,7 +142,7 @@ func checkPath(path string) (string, error) {
 	return path, nil
 }
 
-
+// convertBytes конвертируем байты в нужную размерность
 func convertBytes(bytes float64) (float64, string) {
 	const (
 		KB = 1000
@@ -240,4 +158,91 @@ func convertBytes(bytes float64) (float64, string) {
 		return math.Round(bytes / KB * 10) / 10, "KB"
 	}
 	return bytes, "Bytes"
+}
+
+// handler обрабатываем get запрос
+func handler(w http.ResponseWriter, r *http.Request)  {
+	log.Println(r.Method, r.URL)
+	if r.Method == "GET"{
+		query := r.URL.Query()
+
+		w.Header().Set("Content-Type", "application/json")
+
+		path := query.Get("root")
+		type_sort := query.Get("sort")
+
+		if len(query) == 0{
+			path = "./"
+			type_sort = "desc"
+		}
+		if type_sort == ""{
+			type_sort = "desc"
+		}
+
+		expandedPath, err := checkPath(path)
+
+		if err != nil{
+			http.Error(w, "Ошибка проверки пути", http.StatusBadRequest)
+			return
+		}
+
+		files, err := os.ReadDir(expandedPath)
+		if err != nil{
+			http.Error(w, "Ошибка при чтении директории", http.StatusBadRequest)
+			return
+		}
+	
+		wg := sync.WaitGroup{}
+
+		array := make([]myFile, len(files))
+		
+		for idx, file := range files{
+
+			finfo, err := file.Info()
+
+			if err != nil{
+				fmt.Println("Ошибка информации о файле")
+				continue
+			}
+			wg.Add(1)
+			go func(fileinfo fs.FileInfo, c int) {
+				defer wg.Done()
+				if fileinfo.IsDir(){
+					size := getSize(expandedPath + "/" + fileinfo.Name()) + fileinfo.Size() - 4096
+
+					array[c] = myFile{"d", fileinfo.Name(), float64(size), "Bytes"}
+				}else{
+					array[c] = myFile{"f", fileinfo.Name(), float64(fileinfo.Size()), "Bytes"}
+				}
+			}(finfo, idx)
+
+		}
+
+		wg.Wait()
+
+		// Сортировка
+		if type_sort == "desc"{
+			sort.Slice(array, func(i, j int) bool {
+				return array[i].Weight > array[j].Weight
+			})
+			for i := range array {
+				array[i].Weight, array[i].Weight_name = convertBytes(array[i].Weight)
+			}
+
+			if err := json.NewEncoder(w).Encode(array); err != nil{
+				http.Error(w, "Ошибка кодировки json", http.StatusInternalServerError)
+			}
+		}else if type_sort == "asc"{
+			sort.Sort(ByWeight(array))
+			for i := range array {
+				array[i].Weight, array[i].Weight_name = convertBytes(array[i].Weight)
+			}
+
+			if err := json.NewEncoder(w).Encode(array); err != nil{
+				http.Error(w, "Ошибка кодировки json", http.StatusInternalServerError)
+			}
+		}else{
+			http.Error(w, "Ошибка выбора сортировки", http.StatusBadRequest)
+		}
+	}
 }

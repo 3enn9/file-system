@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", updateTable);
 
+// updateTable обновляем таблицу по запросу
 function updateTable() {
   const params = new URLSearchParams(window.location.search);
   let root = params.get("root") || "/";
@@ -13,7 +14,7 @@ function updateTable() {
     })
     .catch(error => console.error("Ошибка при получении данных:", error));
 }
- 
+ // renderTable генерируем таблицу
 function renderTable(files, root) {
   const tableBody = document.querySelector(".file-table tbody");
   tableBody.innerHTML = "";
