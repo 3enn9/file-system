@@ -21,11 +21,19 @@ import (
 	"github.com/joho/godotenv"
 )
 
-type myFile struct{
-	Category 	string 	`json:"category"`
-	Name 		string	`json:"name"`	
-	Weight 		float64	`json:"weight"`
-	Weight_name string 	`json:"weight_name"`
+// myFile представляет информацию о файле, включая категорию, имя и размер.
+type myFile struct {
+	// Category — категория файла
+	Category string `json:"category"`
+
+	// Name — имя файла
+	Name string `json:"name"`
+
+	// Weight — размер файла
+	Weight float64 `json:"weight"`
+
+	// Weight_name — название размерности файла
+	Weight_name string `json:"weight_name"`
 }
 
 type ByWeight []myFile
@@ -92,7 +100,6 @@ func main() {
 		log.Fatalf("Ошибка при завершении работы сервера %v", err)
 	}
 }
-
 
 //	getSize возвращает размер файла, директории
 func getSize(path string) int64 {
@@ -163,7 +170,7 @@ func convertBytes(bytes float64) (float64, string) {
 	return bytes, "Bytes"
 }
 
-// handler обрабатываем get запрос
+// handler считываем запрос, возвращаем данные в формате json
 func handler(w http.ResponseWriter, r *http.Request)  {
 	const dirSize = 4096
 
