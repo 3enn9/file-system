@@ -127,7 +127,7 @@ func main() {
 	port := os.Getenv("PORT")
 
 	server := &http.Server{
-		Addr: port,
+		Addr: ":" + port,
 		Handler: nil,
 	}
 
@@ -156,7 +156,7 @@ func main() {
 	go func() {
 		log.Println("Starting server on port", port)
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed{
-			log.Fatal("Error starting server...")
+			log.Fatal("Error starting server...", err)
 		}
 	}()
 

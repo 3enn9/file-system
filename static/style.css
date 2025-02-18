@@ -1,6 +1,6 @@
 body {
   font-family: 'Arial', sans-serif;
-  background-color: #e8f5e9; /* Светло-зелёный фон */
+  background-color: #e8f5e9;
   margin: 0;
   padding: 0;
   color: #333;
@@ -72,35 +72,22 @@ body {
   padding: 14px;
   text-align: left;
   border: 1px solid #ddd;
+  font-size: 1rem;
 }
 
-.file-table__row:nth-child(even) {
-  background-color: #f1f8f1;
-}
-
-.file-table__row:hover {
-  background-color: rgba(0, 150, 0, 0.15);
-  transition: background-color 0.3s ease;
-}
-
-/* Улучшенные стили для заголовков */
 th {
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
-.file-table__cell {
-  font-size: 1rem;
+.table-row {
+  height: 50px;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Плавные эффекты */
 }
 
-/* Добавляем плавный эффект при наведении */
 .table-row:hover {
-  background-color: rgba(0, 128, 0, 0.2);
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.table-row:hover td {
-  transform: scale(1.02);
+  background-color: rgba(0, 128, 0, 0.2); /* Подсветка строки при наведении */
 }
 

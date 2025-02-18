@@ -30,21 +30,22 @@ function renderTable(files, root) {
     `;
 
     if (file.category === "d") {
-      row.querySelector(".folder").addEventListener("click", function() {
-        let newRoot = root.endsWith("/") ? root + file.name : root + "/" + file.name;
+      row.addEventListener("click", function() {
+          let newRoot = root.endsWith("/") ? root + file.name : root + "/" + file.name;
 
-        // Меняем URL без перезагрузки страницы
-        history.pushState({ root: newRoot }, "", `?root=${encodeURIComponent(newRoot)}&sort=desc`);
+          // Меняем URL без перезагрузки страницы
+          history.pushState({ root: newRoot }, "", `?root=${encodeURIComponent(newRoot)}&sort=desc`);
 
-        // Загружаем новые данные
-        updateTable();
+          // Загружаем новые данные
+          updateTable();
       });
 
-      row.style.cursor = "pointer";
-      row.style.fontWeight = "bold";
-    }
+      row.style.cursor = "pointer"; // Делаем курсор pointer только для папок
+  } else {
+      row.style.cursor = "default"; // Для файлов обычный курсор
+  }
 
-    tableBody.appendChild(row);
+  tableBody.appendChild(row);
   });
 }
 
