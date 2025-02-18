@@ -3,7 +3,13 @@ body {
   background-color: #e8f5e9;
   margin: 0;
   padding: 0;
-  color: #333;
+  color: hsl(0, 0%, 20%);
+  overflow: hidden;
+}
+
+.table-cont{
+  overflow-y: scroll;
+  max-height: 30rem;
 }
 
 .header {
@@ -51,6 +57,7 @@ body {
   padding: 25px;
   margin: 0 auto;
   max-width: 1200px;
+  overflow-y: scroll;
 }
 
 .file-table {
@@ -58,8 +65,9 @@ body {
   border-collapse: collapse;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
   border-radius: 10px;
-  overflow: hidden;
+  overflow-y: auto;
   background-color: white;
+  max-height: 100px;
 }
 
 .file-table__header {

@@ -167,6 +167,8 @@ func convertBytes(bytes float64) (float64, string) {
 
 // handler обрабатываем get запрос
 func handler(w http.ResponseWriter, r *http.Request)  {
+	const dirSize = 4096
+
 	log.Println(r.Method, r.URL)
 	if r.Method == "GET"{
 		query := r.URL.Query()
@@ -213,7 +215,7 @@ func handler(w http.ResponseWriter, r *http.Request)  {
 			go func(fileinfo fs.FileInfo, c int) {
 				defer wg.Done()
 				if fileinfo.IsDir(){
-					size := getSize(expandedPath + "/" + fileinfo.Name()) + fileinfo.Size() - 4096
+					size := getSize(expandedPath + "/" + fileinfo.Name()) + fileinfo.Size() - dirSize
 
 					array[c] = myFile{"d", fileinfo.Name(), float64(size), "Bytes"}
 				}else{
@@ -250,4 +252,8 @@ func handler(w http.ResponseWriter, r *http.Request)  {
 			http.Error(w, "Ошибка выбора сортировки", http.StatusBadRequest)
 		}
 	}
+}
+
+func sortFiles(type_sort string, array []myFile)  {
+	
 }
