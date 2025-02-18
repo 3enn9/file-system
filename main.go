@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/fs"
 	"log"
+	"math"
 	"net/http"
 	"os"
 	"os/signal"
@@ -22,7 +23,7 @@ import (
 type myFile struct{
 	Category 	string 	`json:"category"`
 	Name 		string	`json:"name"`	
-	Weight 		int64	`json:"weight"`
+	Weight 		float64	`json:"weight"`
 	Weight_name string 	`json:"weight_name"`
 }
 
@@ -81,9 +82,9 @@ func handler(w http.ResponseWriter, r *http.Request)  {
 				if fileinfo.IsDir(){
 					size := getSize(expandedPath + "/" + fileinfo.Name()) + fileinfo.Size() - 4096
 
-					array[c] = myFile{"d", fileinfo.Name(), size, "Bytes"}
+					array[c] = myFile{"d", fileinfo.Name(), float64(size), "Bytes"}
 				}else{
-					array[c] = myFile{"f", fileinfo.Name(), fileinfo.Size(), "Bytes"}
+					array[c] = myFile{"f", fileinfo.Name(), float64(fileinfo.Size()), "Bytes"}
 				}
 			}(finfo, idx)
 
@@ -224,7 +225,7 @@ func checkPath(path string) (string, error) {
 }
 
 
-func convertBytes(bytes int64) (int64, string) {
+func convertBytes(bytes float64) (float64, string) {
 	const (
 		KB = 1000
 		MB = KB * 1000
@@ -232,11 +233,11 @@ func convertBytes(bytes int64) (int64, string) {
 	)
 
 	if bytes >= GB {
-		return bytes / GB, "GB"
+		return math.Round(bytes / GB * 10) / 10, "GB"
 	} else if bytes >= MB {
-		return bytes / MB, "MB"
+		return math.Round(bytes / MB * 10) / 10, "MB"
 	} else if bytes >= KB {
-		return bytes / KB, "KB"
+		return math.Round(bytes / KB * 10) / 10, "KB"
 	}
 	return bytes, "Bytes"
 }
