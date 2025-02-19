@@ -7,7 +7,7 @@ body {
   overflow: hidden;
 }
 
-.table-cont{
+.table-cont {
   overflow-y: scroll;
   max-height: 30rem;
 }
@@ -15,7 +15,6 @@ body {
 .header {
   text-align: center;
   background: linear-gradient(135deg, #4CAF50, #388E3C);
-  color: white;
   padding: 25px 0;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
@@ -25,6 +24,7 @@ body {
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 1.5px;
+  color: white;
 }
 
 .nav {
@@ -53,52 +53,55 @@ body {
   box-shadow: 0 5px 12px rgba(0, 0, 0, 0.2);
 }
 
+.file-grid {
+  overflow-y: scroll;
+  height: 34rem;
+}
+
 .content {
   padding: 25px;
   margin: 0 auto;
   max-width: 1200px;
 }
 
-.file-table {
-  width: 100%;
-  border-collapse: collapse;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-  border-radius: 10px;
-  overflow-y: auto;
-  background-color: white;
-  max-height: 100px;
+.file-grid__header,
+.file-grid__row {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr 1fr; /* Настройка ширины колонок */
+  align-items: center; /* Выравнивание по центру */
 }
 
-.file-table__header {
-  display: flex;
-  background: linear-gradient(135deg, #4CAF50, #388E3C);
+.file-grid__header {
+  background: green;
   color: white;
   font-size: 1.1rem;
+  font-weight: bold;
 }
 
-.file-table__cell {
+.file-grid__cell {
   padding: 14px;
   text-align: left;
   border: 1px solid #ddd;
-  font-size: 1rem;
-  width: 100%;
 }
 
-
-
-th {
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+.file-grid__row {
+  background-color: #fff;
+  transition: background-color 0.3s ease;
 }
 
-.table-row {
-  height: 50px;
-  font-size: 16px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.table-row:hover {
+.file-grid__row:hover {
   background-color: rgba(0, 128, 0, 0.2);
+  cursor: pointer;
 }
 
+.folder {
+  font-weight: bold;
+  color: #388E3C; /* Зеленый цвет для папок */
+}
+@media  (max-width: 463px)  {
+  button{
+    width: 100px;
+    height: 30px;
+    font-size: 10px;
+  }
+}

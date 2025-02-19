@@ -33,35 +33,33 @@ function updateTable() {
 }
 // renderTable генерируем таблицу
 function renderTable(files, root) {
-    const tableBody = document.querySelector(".file-table tbody") || null;
-    if (!tableBody) {
-        console.error("Table body not found.");
+    const container = document.querySelector(".file-grid") || null;
+    if (!container) {
+        console.error("File grid container not found.");
         return;
     }
-    tableBody.innerHTML = "";
+    container.innerHTML = "";
     files.forEach((file) => {
-        const row = document.createElement("tr");
-        row.classList.add("table-row");
+        const row = document.createElement("div");
+        row.classList.add("file-grid__row");
         row.innerHTML = `
-      <td class="table-cell">${file.category}</td>
-      <td class="table-cell ${file.category === "d" ? "folder" : ""}" data-name="${file.name}">${file.name}</td>
-      <td class="table-cell">${file.weight}</td>
-      <td class="table-cell">${file.weight_name}</td>
-    `;
+            <div class="file-grid__cell">${file.category}</div>
+            <div class="file-grid__cell ${file.category === "d" ? "folder" : ""}" data-name="${file.name}">${file.name}</div>
+            <div class="file-grid__cell">${file.weight}</div>
+            <div class="file-grid__cell">${file.weight_name}</div>
+        `;
         if (file.category === "d") {
             row.addEventListener("click", function () {
                 let newRoot = root.endsWith("/") ? root + file.name : root + "/" + file.name;
-                // Меняем URL без перезагрузки страницы
                 history.pushState({ root: newRoot }, "", `?root=${encodeURIComponent(newRoot)}&sort=desc`);
-                // Загружаем новые данные
                 updateTable();
             });
-            row.style.cursor = "pointer"; // Делаем курсор pointer только для папок
+            row.style.cursor = "pointer";
         }
         else {
-            row.style.cursor = "default"; // Для файлов обычный курсор
+            row.style.cursor = "default";
         }
-        tableBody.appendChild(row);
+        container.appendChild(row);
     });
 }
 const sortAscButton = document.querySelector(".button--sort-asc");
