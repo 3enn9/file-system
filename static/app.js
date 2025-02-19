@@ -1,17 +1,35 @@
 "use strict";
 document.addEventListener("DOMContentLoaded", updateTable);
-// updateTable обновляем таблицу по запросу
+let controller = null;
+let lastRequestId = 0; // ID последнего запроса
 function updateTable() {
+    if (controller) {
+        controller.abort();
+    }
+    controller = new AbortController();
+    const signal = controller.signal;
+    const requestId = ++lastRequestId; // Увеличиваем ID запроса
     const params = new URLSearchParams(window.location.search);
     let root = params.get("root") || "/";
     const sort = params.get("sort") || "desc";
-    fetch(`/api/fs?root=${encodeURIComponent(root)}&sort=${sort}`)
+    fetch(`/api/fs?root=${encodeURIComponent(root)}&sort=${sort}`, { signal })
         .then((response) => response.json())
         .then((data) => {
-        console.log("Полученные данные:", data);
+        if (requestId !== lastRequestId) {
+            console.log(`Пропускаем устаревший запрос #${requestId}`);
+            return; // Если это не последний запрос, пропускаем его
+        }
+        console.log(`Обновляем таблицу данными из запроса #${requestId}`);
         renderTable(data, root);
     })
-        .catch((error) => console.error("Ошибка при получении данных:", error));
+        .catch((error) => {
+        if (error.name === "AbortError") {
+            console.log(`Запрос #${requestId} отменён`);
+        }
+        else {
+            console.error(`Ошибка в запросе #${requestId}:`, error);
+        }
+    });
 }
 // renderTable генерируем таблицу
 function renderTable(files, root) {

@@ -243,8 +243,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 // sortFiles сортировка файлов
-func sortFiles(type_sort string, array []myFile) error {
-	switch type_sort {
+func sortFiles(typeSort string, array []myFile) error {
+	switch typeSort {
 	case "desc":
 		sort.Slice(array, func(i, j int) bool {
 			return array[i].Weight > array[j].Weight

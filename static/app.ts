@@ -7,21 +7,40 @@ interface MyFile{
 
 document.addEventListener("DOMContentLoaded", updateTable);
 
-// updateTable обновляем таблицу по запросу
-function updateTable(): void  {
-    const params = new URLSearchParams(window.location.search);
-    let root : string = params.get("root") || "/";
-    const sort : string = params.get("sort") || "desc";
+let controller: AbortController | null = null;
+let lastRequestId = 0; // ID последнего запроса
 
-    fetch(`/api/fs?root=${encodeURIComponent(root)}&sort=${sort}`)
+function updateTable(): void {
+    if (controller) {
+        controller.abort();
+    }
+    controller = new AbortController();
+    const signal = controller.signal;
+
+    const requestId = ++lastRequestId; // Увеличиваем ID запроса
+
+    const params = new URLSearchParams(window.location.search);
+    let root: string = params.get("root") || "/";
+    const sort: string = params.get("sort") || "desc";
+
+    fetch(`/api/fs?root=${encodeURIComponent(root)}&sort=${sort}`, { signal })
         .then((response: Response) => response.json())
         .then((data: MyFile[]) => {
-            console.log("Полученные данные:", data);
+            if (requestId !== lastRequestId) {
+                console.log(`Пропускаем устаревший запрос #${requestId}`);
+                return; // Если это не последний запрос, пропускаем его
+            }
+            console.log(`Обновляем таблицу данными из запроса #${requestId}`);
             renderTable(data, root);
         })
-        .catch((error: Error) => console.error("Ошибка при получении данных:", error));
+        .catch((error: Error) => {
+            if (error.name === "AbortError") {
+                console.log(`Запрос #${requestId} отменён`);
+            } else {
+                console.error(`Ошибка в запросе #${requestId}:`, error);
+            }
+        });
 }
-
 // renderTable генерируем таблицу
 function renderTable(files: MyFile[], root: string): void {
     const tableBody = document.querySelector(".file-table tbody") as HTMLElement || null;
