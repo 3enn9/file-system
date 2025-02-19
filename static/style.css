@@ -105,3 +105,23 @@ body {
     font-size: 10px;
   }
 }
+
+.path-cont{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width:100%;
+
+}
+
+.current-path-cont{
+  color: white;
+  width: 25rem;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  background-color: #2e7d32;
+  border: 1px solid white;
+  align-items: center;
+  border-radius: 10px;
+}

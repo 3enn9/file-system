@@ -44,6 +44,7 @@ function updateTable(): void {
 // renderTable генерируем таблицу
 function renderTable(files: MyFile[], root: string): void {
     const container = document.querySelector(".file-grid") as HTMLElement || null;
+    const pathUrl = document.querySelector(".current-path") as HTMLElement || null;
 
     if (!container) {
         console.error("File grid container not found.");
@@ -51,7 +52,7 @@ function renderTable(files: MyFile[], root: string): void {
     }
 
     container.innerHTML = "";
-
+    pathUrl.innerHTML = `Путь ${root}`;
     files.forEach((file: MyFile): void => {
         const row = document.createElement("div");
         row.classList.add("file-grid__row");

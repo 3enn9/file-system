@@ -34,11 +34,13 @@ function updateTable() {
 // renderTable генерируем таблицу
 function renderTable(files, root) {
     const container = document.querySelector(".file-grid") || null;
+    const pathUrl = document.querySelector(".current-path") || null;
     if (!container) {
         console.error("File grid container not found.");
         return;
     }
     container.innerHTML = "";
+    pathUrl.innerHTML = `Путь ${root}`;
     files.forEach((file) => {
         const row = document.createElement("div");
         row.classList.add("file-grid__row");
