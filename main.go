@@ -76,8 +76,8 @@ func main() {
 	http.HandleFunc("/api/fs", handler)
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.RawQuery == "" {
-			http.Redirect(w, r, "/index.html?root="+absPath+"&sort=desc", http.StatusFound)
+		if r.URL.RawQuery == "/" {
+			http.Redirect(w, r, "/?root="+absPath+"&sort=desc", http.StatusFound)
 			return
 		}
 		http.ServeFile(w, r, "./static/index.html")

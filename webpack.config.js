@@ -15,6 +15,14 @@ module.exports = {
         },
         port: 3000,
         hot: true,
+        proxy: [
+            {
+                context: ['/'], // Путь для проксирования
+                target: 'http://localhost:9015', // Ваш API сервер
+                secure: false, // Отключаем SSL, если сервер работает по HTTP
+                changeOrigin: true, // Меняем origin для предотвращения ошибки CORS
+            }
+        ],
     },
     plugins: [
         new HtmlWebpackPlugin({
