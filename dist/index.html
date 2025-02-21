@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File List</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+<script defer src="bundle.js"></script></head>
+<body class="page">
+  <header class="header">
+    <h1 class="header__title">File List</h1>
+  </header>
+
+  <nav class="nav">
+    <button class="button button--sort-asc">Sort Ascending</button>
+    <button class="button button--sort-desc">Sort Descending</button>
+    <button class="button button--back">Back</button>
+  </nav>
+
+  <div id="loader" class="loader">Loading...</div>
+
+  <div class="path-cont">
+    <div class="current-path-cont">
+      <p class="current-path"></p>
+    </div>
+  </div>
+
+  <main class="content">
+    <div class="file-grid__header">
+      <div class="file-grid__cell">Category</div>
+      <div class="file-grid__cell">Name</div>
+      <div class="file-grid__cell">Weight</div>
+      <div class="file-grid__cell">Weight Name</div>
+    </div>
+    <div class="file-grid">
+      <!-- Rows will be dynamically added here by JavaScript -->
+    </div>
+  </main>
+</body>
+</html>

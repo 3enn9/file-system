@@ -1,4 +1,6 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+require("./style.css");
 document.addEventListener("DOMContentLoaded", updateTable);
 let controller = null;
 function updateTable() {
@@ -18,7 +20,7 @@ function updateTable() {
         loader.style.display = "block"; // Показываем индикатор
     if (fileGrid)
         fileGrid.classList.add("hidden"); // Блокируем клики
-    fetch(`/api/fs?root=${encodeURIComponent(root)}&sort=${sort}`, { signal })
+    fetch(`http://localhost:9015/api/fs?root=${encodeURIComponent(root)}&sort=${sort}`, { signal })
         .then((response) => response.json())
         .then((data) => {
         console.log(`Обновляем таблицу данными из запроса #`);

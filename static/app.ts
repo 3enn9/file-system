@@ -1,3 +1,4 @@
+import "./style.css"
 interface MyFile{
     category: string;
     name: string;
@@ -28,7 +29,7 @@ function updateTable(): void {
     if (loader) loader.style.display = "block"; // Показываем индикатор
     if (fileGrid) fileGrid.classList.add("hidden"); // Блокируем клики
 
-    fetch(`/api/fs?root=${encodeURIComponent(root)}&sort=${sort}`, { signal })
+    fetch(`http://localhost:9015/api/fs?root=${encodeURIComponent(root)}&sort=${sort}`, { signal })
         .then((response: Response) => response.json())
         .then((data: MyFile[]) => {
             console.log(`Обновляем таблицу данными из запроса #`);

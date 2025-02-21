@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/gorilla/handlers"
 	"io/fs"
 	"log"
 	"math"
@@ -56,9 +57,13 @@ func main() {
 
 	port := os.Getenv("PORT")
 
+	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
+	originsOk := handlers.AllowedOrigins([]string{"*"})
+	methodsOk := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"})
+
 	server := &http.Server{
 		Addr:    ":" + port,
-		Handler: nil,
+		Handler: handlers.CORS(originsOk, headersOk, methodsOk)(http.DefaultServeMux),
 	}
 
 	absPath, err := filepath.Abs(".")
