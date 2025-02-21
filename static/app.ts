@@ -8,7 +8,6 @@ interface MyFile{
 document.addEventListener("DOMContentLoaded", updateTable);
 
 let controller: AbortController | null = null;
-let lastRequestId = 0; // ID последнего запроса
 
 function updateTable(): void {
     if (controller) {
@@ -16,29 +15,36 @@ function updateTable(): void {
     }
     controller = new AbortController();
     const signal = controller.signal;
-
-    const requestId = ++lastRequestId; // Увеличиваем ID запроса
-
+    const loader = document.getElementById("loader");
+    const fileGrid = document.querySelector(".file-grid") as HTMLElement | null;
     const params = new URLSearchParams(window.location.search);
+
     let root: string = params.get("root") || "/";
+
     const sort: string = params.get("sort") || "desc";
+    const buttons = document.querySelectorAll(".button"); // Получаем все кнопки
+
+    buttons.forEach((button) => (button as HTMLButtonElement).disabled = true);
+    if (loader) loader.style.display = "block"; // Показываем индикатор
+    if (fileGrid) fileGrid.classList.add("hidden"); // Блокируем клики
 
     fetch(`/api/fs?root=${encodeURIComponent(root)}&sort=${sort}`, { signal })
         .then((response: Response) => response.json())
         .then((data: MyFile[]) => {
-            if (requestId !== lastRequestId) {
-                console.log(`Пропускаем устаревший запрос #${requestId}`);
-                return; // Если это не последний запрос, пропускаем его
-            }
-            console.log(`Обновляем таблицу данными из запроса #${requestId}`);
+            console.log(`Обновляем таблицу данными из запроса #`);
             renderTable(data, root);
         })
         .catch((error: Error) => {
             if (error.name === "AbortError") {
-                console.log(`Запрос #${requestId} отменён`);
+                console.log(`Запрос отменён`);
             } else {
-                console.error(`Ошибка в запросе #${requestId}:`, error);
+                console.error(`Ошибка в запросе`, error);
             }
+        })
+        .finally(() => {
+            buttons.forEach((button) => (button as HTMLButtonElement).disabled = false);
+            if (loader) loader.style.display = "none"; // Скрываем индикатор
+            if (fileGrid) fileGrid.classList.remove("hidden"); // Разблокируем клики
         });
 }
 // renderTable генерируем таблицу
