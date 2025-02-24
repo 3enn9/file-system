@@ -1,11 +1,11 @@
 package main
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/gorilla/handlers"
 	"io/fs"
 	"log"
 	"math"
@@ -37,6 +37,12 @@ type myFile struct {
 	WeightName string `json:"weight_name"`
 }
 
+type Data struct {
+	Root        string  `json:"root"`
+	Size        float64 `json:"size"`
+	ElapsedTime float64 `json:"elapsedTime"`
+}
+
 type ByWeight []myFile
 
 func (a ByWeight) Len() int           { return len(a) }
@@ -57,13 +63,9 @@ func main() {
 
 	port := os.Getenv("PORT")
 
-	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
-	originsOk := handlers.AllowedOrigins([]string{"*"})
-	methodsOk := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"})
-
 	server := &http.Server{
 		Addr:    ":" + port,
-		Handler: handlers.CORS(originsOk, headersOk, methodsOk)(http.DefaultServeMux),
+		Handler: nil,
 	}
 
 	absPath, err := filepath.Abs(".")
@@ -76,8 +78,8 @@ func main() {
 	http.HandleFunc("/api/fs", handler)
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.RawQuery == "/" {
-			http.Redirect(w, r, "/?root="+absPath+"&sort=desc", http.StatusFound)
+		if r.URL.RawQuery == "" {
+			http.Redirect(w, r, "/index.html?root="+absPath+"&sort=desc", http.StatusFound)
 			return
 		}
 		http.ServeFile(w, r, "./static/index.html")
@@ -178,6 +180,7 @@ func convertBytes(bytes float64) (float64, string) {
 // handler считываем запрос, возвращаем данные в формате json
 func handler(w http.ResponseWriter, r *http.Request) {
 	const dirSize = 4096
+	start := time.Now()
 
 	log.Println(r.Method, r.URL)
 	if r.Method == "GET" {
@@ -236,6 +239,11 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		}
 		wg.Wait()
 
+		sizeCurrentDir := 0.0
+		for _, v := range array {
+			sizeCurrentDir += v.Weight
+		}
+
 		if err := sortFiles(type_sort, array); err != nil {
 			http.Error(w, "Ошибка выбора сортировки: "+err.Error(), http.StatusBadRequest)
 			return
@@ -243,7 +251,47 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 		if err := json.NewEncoder(w).Encode(array); err != nil {
 			http.Error(w, "Ошибка кодировки json", http.StatusInternalServerError)
+			return
 		}
+
+		data := Data{
+			Root:        expandedPath,
+			Size:        sizeCurrentDir,
+			ElapsedTime: time.Since(start).Seconds(),
+		}
+
+		// Преобразуем структуру в JSON
+		jsonData, err := json.Marshal(data)
+		if err != nil {
+			log.Println("Ошибка при преобразовании данных в JSON:", err)
+			return
+		}
+
+		// URL для отправки POST-запроса
+		url := "http://localhost/write_stat.php"
+
+		// Отправка POST-запроса
+		resp, err := http.Post(url, "application/json", bytes.NewBuffer(jsonData))
+		if err != nil {
+			log.Println("Ошибка при отправке запроса:", err)
+			return
+		}
+		defer resp.Body.Close()
+
+		// Логируем статус код ответа
+		log.Println("Ответ от сервера:", resp.Status)
+
+		// Чтение ответа от сервера
+		var response map[string]interface{}
+		err = json.NewDecoder(resp.Body).Decode(&response)
+		if err != nil {
+			log.Println("Ошибка при декодировании ответа:", err)
+			return
+		}
+
+		// Выводим полученный ответ от PHP сервера
+		fmt.Printf("Ответ от PHP: %+v\n", response)
+		fmt.Println(convertBytes(sizeCurrentDir))
 	}
 }
 

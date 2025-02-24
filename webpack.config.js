@@ -1,48 +1,26 @@
-// webpack.config.js
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    mode: 'development',  // Добавляем режим разработки
-    entry: './static/app.js',
+    entry: './static/app.ts', // Указываем TypeScript файл
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'static'), // Сборка в static/
     },
-    devServer: {
-        static: {
-            directory: path.join(__dirname, 'static'),
-        },
-        port: 3000,
-        hot: true,
-        proxy: [
-            {
-                context: ['/'], // Путь для проксирования
-                target: 'http://localhost:9015', // Ваш API сервер
-                secure: false, // Отключаем SSL, если сервер работает по HTTP
-                changeOrigin: true, // Меняем origin для предотвращения ошибки CORS
-            }
-        ],
-    },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: './static/index.html',
-        }),
-    ],
+    mode: 'development', // Или 'production' для продакшена
     module: {
         rules: [
             {
-                test: /\.css$/i,
-                use: ['style-loader', 'css-loader'],
-            },
-            {
-                test: /\.ts$/,
+                test: /\.ts$/, // Компиляция TS → JS
                 use: 'ts-loader',
                 exclude: /node_modules/,
             },
-        ],
+            {
+                test: /\.css$/, // Обработка CSS
+                use: ['style-loader', 'css-loader'],
+            }
+        ]
     },
     resolve: {
-        extensions: ['.ts', '.js'],
+        extensions: ['.ts', '.js'], // Чтобы можно было импортировать TS без расширения
     },
 };
