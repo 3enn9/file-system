@@ -38,8 +38,13 @@ type myFile struct {
 }
 
 type Data struct {
-	Root        string  `json:"root"`
-	Size        float64 `json:"size"`
+	// Root - путь к директории, для которой собираются данные.
+	Root string `json:"root"`
+
+	// Size - размер директории в байтах.
+	Size float64 `json:"size"`
+
+	// ElapsedTime - время, затраченное на обработку директории (в секундах).
 	ElapsedTime float64 `json:"elapsedTime"`
 }
 
@@ -276,7 +281,11 @@ func handler(w http.ResponseWriter, r *http.Request) {
 			log.Println("Ошибка при отправке запроса:", err)
 			return
 		}
-		defer resp.Body.Close()
+		defer func() {
+			if err := resp.Body.Close(); err != nil {
+				log.Println("Ошибка при закрытии тела ответа:", err)
+			}
+		}()
 
 		// Логируем статус код ответа
 		log.Println("Ответ от сервера:", resp.Status)
@@ -290,8 +299,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// Выводим полученный ответ от PHP сервера
-		fmt.Printf("Ответ от PHP: %+v\n", response)
-		fmt.Println(convertBytes(sizeCurrentDir))
+		log.Printf("Ответ от PHP: %+v\n", response)
+		log.Println(convertBytes(sizeCurrentDir))
 	}
 }
 
