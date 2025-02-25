@@ -7,11 +7,14 @@ $data = json_decode(file_get_contents("php://input"), true);
 
 // Проверяем, пришли ли данные
 if (isset($data['root']) && isset($data['size']) && isset($data['elapsedTime'])) {
-    // Подключаемся к базе данных
-    $servername = "localhost";
-    $username = "root";
-    $password = "";  //
-    $dbname = "stat"; //
+    // Загружаем конфигурацию
+    $config = require 'config.php';
+
+    // Подключение к базе данных
+    $servername = $config['DB_HOST'];
+    $username = $config['DB_USERNAME'];
+    $password = $config['DB_PASSWORD'];
+    $dbname = $config['DB_NAME'];
 
     $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -20,7 +23,7 @@ if (isset($data['root']) && isset($data['size']) && isset($data['elapsedTime']))
         die(json_encode(["error" => "Ошибка подключения к базе данных: " . $conn->connect_error]));
     }
 
-    // Запрос для добавления данных в базу
+    // Подготавливаем запрос для добавления данных в базу
     $stmt = $conn->prepare("INSERT INTO data (root, size, elapsedTime, date) VALUES (?, ?, ?, NOW())");
     $stmt->bind_param("sss", $data['root'], $data['size'], $data['elapsedTime']);
 

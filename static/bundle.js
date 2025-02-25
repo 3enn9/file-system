@@ -10,93 +10,13 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./node_modules/css-loader/dist/cjs.js!./static/style.css":
-/*!****************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js!./static/style.css ***!
-  \****************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
+/***/ "./static/api/fileService.ts":
+/*!***********************************!*\
+  !*** ./static/api/fileService.ts ***!
+  \***********************************/
+/***/ (function(__unused_webpack_module, exports) {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../node_modules/css-loader/dist/runtime/noSourceMaps.js */ \"./node_modules/css-loader/dist/runtime/noSourceMaps.js\");\n/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../node_modules/css-loader/dist/runtime/api.js */ \"./node_modules/css-loader/dist/runtime/api.js\");\n/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);\n// Imports\n\n\nvar ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));\n// Module\n___CSS_LOADER_EXPORT___.push([module.id, `body {\n  font-family: 'Arial', sans-serif;\n  background-color: #e8f5e9;\n  margin: 0;\n  padding: 0;\n  color: hsl(0, 0%, 20%);\n  overflow: hidden;\n}\n\n.table-cont {\n  overflow-y: scroll;\n  max-height: 30rem;\n}\n\n.header {\n  text-align: center;\n  background: linear-gradient(135deg, #4CAF50, #388E3C);\n  padding: 25px 0;\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);\n}\n\n.header__title {\n  font-size: 2.2rem;\n  margin: 0;\n  text-transform: uppercase;\n  letter-spacing: 1.5px;\n  color: white;\n}\n\n.nav {\n  display: flex;\n  justify-content: center;\n  gap: 15px;\n  margin: 25px 0;\n}\n\n.button {\n  padding: 12px 25px;\n  font-size: 1rem;\n  font-weight: bold;\n  color: white;\n  background: linear-gradient(135deg, #2c6e2f, #1b5e20);\n  border: none;\n  border-radius: 8px;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);\n}\n\n.button:hover {\n  background: linear-gradient(135deg, #45a049, #2e7d32);\n  transform: scale(1.07);\n  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.2);\n}\n\n.file-grid {\n  overflow-y: scroll;\n  height: 34rem;\n}\n\n.content {\n  padding: 25px;\n  margin: 0 auto;\n  max-width: 1200px;\n}\n\n.file-grid__header,\n.file-grid__row {\n  display: grid;\n  grid-template-columns: 1fr 2fr 1fr 1fr; /* Настройка ширины колонок */\n  align-items: center; /* Выравнивание по центру */\n}\n\n.file-grid__header {\n  background: green;\n  color: white;\n  font-size: 1.1rem;\n  font-weight: bold;\n}\n\n.file-grid__cell {\n  padding: 14px;\n  text-align: left;\n  border: 1px solid #ddd;\n}\n\n.file-grid__row {\n  background-color: #fff;\n  transition: background-color 0.3s ease;\n}\n\n.file-grid__row:hover {\n  background-color: rgba(0, 128, 0, 0.2);\n  cursor: pointer;\n}\n\n.folder {\n  font-weight: bold;\n  color: #388E3C; /* Зеленый цвет для папок */\n}\n@media  (max-width: 463px)  {\n  button{\n    width: 100px;\n    height: 30px;\n    font-size: 10px;\n  }\n}\n\n.path-cont{\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  width:100%;\n\n}\n\n.current-path-cont{\n  color: white;\n  width: 25rem;\n  height: 3rem;\n  display: flex;\n  justify-content: center;\n  background-color: #2e7d32;\n  border: 1px solid white;\n  align-items: center;\n  border-radius: 10px;\n}\n\n.loader {\n  display: none; /* По умолчанию скрыт */\n  text-align: center;\n  font-size: 1.5rem;\n  font-weight: bold;\n  margin: 20px auto;\n}\n\n.loader::after {\n  content: \" ⏳\";\n  animation: dots 1.5s infinite;\n}\n\n@keyframes dots {\n  0% { content: \" ⏳\"; }\n  50% { content: \" ⏳⏳\"; }\n  100% { content: \" ⏳⏳⏳\"; }\n}\n\n.file-grid {\n  opacity: 1;\n  transition: opacity 0.3s ease;\n}\n\n.file-grid.hidden {\n  opacity: 0;\n  pointer-events: none; /* Блокирует клики */\n}\n`, \"\"]);\n// Exports\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);\n\n\n//# sourceURL=webpack://fs-sort/./static/style.css?./node_modules/css-loader/dist/cjs.js");
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/dist/runtime/api.js":
-/*!*****************************************************!*\
-  !*** ./node_modules/css-loader/dist/runtime/api.js ***!
-  \*****************************************************/
-/***/ ((module) => {
-
-eval("\n\n/*\n  MIT License http://www.opensource.org/licenses/mit-license.php\n  Author Tobias Koppers @sokra\n*/\nmodule.exports = function (cssWithMappingToString) {\n  var list = [];\n\n  // return the list of modules as css string\n  list.toString = function toString() {\n    return this.map(function (item) {\n      var content = \"\";\n      var needLayer = typeof item[5] !== \"undefined\";\n      if (item[4]) {\n        content += \"@supports (\".concat(item[4], \") {\");\n      }\n      if (item[2]) {\n        content += \"@media \".concat(item[2], \" {\");\n      }\n      if (needLayer) {\n        content += \"@layer\".concat(item[5].length > 0 ? \" \".concat(item[5]) : \"\", \" {\");\n      }\n      content += cssWithMappingToString(item);\n      if (needLayer) {\n        content += \"}\";\n      }\n      if (item[2]) {\n        content += \"}\";\n      }\n      if (item[4]) {\n        content += \"}\";\n      }\n      return content;\n    }).join(\"\");\n  };\n\n  // import a list of modules into the list\n  list.i = function i(modules, media, dedupe, supports, layer) {\n    if (typeof modules === \"string\") {\n      modules = [[null, modules, undefined]];\n    }\n    var alreadyImportedModules = {};\n    if (dedupe) {\n      for (var k = 0; k < this.length; k++) {\n        var id = this[k][0];\n        if (id != null) {\n          alreadyImportedModules[id] = true;\n        }\n      }\n    }\n    for (var _k = 0; _k < modules.length; _k++) {\n      var item = [].concat(modules[_k]);\n      if (dedupe && alreadyImportedModules[item[0]]) {\n        continue;\n      }\n      if (typeof layer !== \"undefined\") {\n        if (typeof item[5] === \"undefined\") {\n          item[5] = layer;\n        } else {\n          item[1] = \"@layer\".concat(item[5].length > 0 ? \" \".concat(item[5]) : \"\", \" {\").concat(item[1], \"}\");\n          item[5] = layer;\n        }\n      }\n      if (media) {\n        if (!item[2]) {\n          item[2] = media;\n        } else {\n          item[1] = \"@media \".concat(item[2], \" {\").concat(item[1], \"}\");\n          item[2] = media;\n        }\n      }\n      if (supports) {\n        if (!item[4]) {\n          item[4] = \"\".concat(supports);\n        } else {\n          item[1] = \"@supports (\".concat(item[4], \") {\").concat(item[1], \"}\");\n          item[4] = supports;\n        }\n      }\n      list.push(item);\n    }\n  };\n  return list;\n};\n\n//# sourceURL=webpack://fs-sort/./node_modules/css-loader/dist/runtime/api.js?");
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/dist/runtime/noSourceMaps.js":
-/*!**************************************************************!*\
-  !*** ./node_modules/css-loader/dist/runtime/noSourceMaps.js ***!
-  \**************************************************************/
-/***/ ((module) => {
-
-eval("\n\nmodule.exports = function (i) {\n  return i[1];\n};\n\n//# sourceURL=webpack://fs-sort/./node_modules/css-loader/dist/runtime/noSourceMaps.js?");
-
-/***/ }),
-
-/***/ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js":
-/*!****************************************************************************!*\
-  !*** ./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js ***!
-  \****************************************************************************/
-/***/ ((module) => {
-
-eval("\n\nvar stylesInDOM = [];\nfunction getIndexByIdentifier(identifier) {\n  var result = -1;\n  for (var i = 0; i < stylesInDOM.length; i++) {\n    if (stylesInDOM[i].identifier === identifier) {\n      result = i;\n      break;\n    }\n  }\n  return result;\n}\nfunction modulesToDom(list, options) {\n  var idCountMap = {};\n  var identifiers = [];\n  for (var i = 0; i < list.length; i++) {\n    var item = list[i];\n    var id = options.base ? item[0] + options.base : item[0];\n    var count = idCountMap[id] || 0;\n    var identifier = \"\".concat(id, \" \").concat(count);\n    idCountMap[id] = count + 1;\n    var indexByIdentifier = getIndexByIdentifier(identifier);\n    var obj = {\n      css: item[1],\n      media: item[2],\n      sourceMap: item[3],\n      supports: item[4],\n      layer: item[5]\n    };\n    if (indexByIdentifier !== -1) {\n      stylesInDOM[indexByIdentifier].references++;\n      stylesInDOM[indexByIdentifier].updater(obj);\n    } else {\n      var updater = addElementStyle(obj, options);\n      options.byIndex = i;\n      stylesInDOM.splice(i, 0, {\n        identifier: identifier,\n        updater: updater,\n        references: 1\n      });\n    }\n    identifiers.push(identifier);\n  }\n  return identifiers;\n}\nfunction addElementStyle(obj, options) {\n  var api = options.domAPI(options);\n  api.update(obj);\n  var updater = function updater(newObj) {\n    if (newObj) {\n      if (newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap && newObj.supports === obj.supports && newObj.layer === obj.layer) {\n        return;\n      }\n      api.update(obj = newObj);\n    } else {\n      api.remove();\n    }\n  };\n  return updater;\n}\nmodule.exports = function (list, options) {\n  options = options || {};\n  list = list || [];\n  var lastIdentifiers = modulesToDom(list, options);\n  return function update(newList) {\n    newList = newList || [];\n    for (var i = 0; i < lastIdentifiers.length; i++) {\n      var identifier = lastIdentifiers[i];\n      var index = getIndexByIdentifier(identifier);\n      stylesInDOM[index].references--;\n    }\n    var newLastIdentifiers = modulesToDom(newList, options);\n    for (var _i = 0; _i < lastIdentifiers.length; _i++) {\n      var _identifier = lastIdentifiers[_i];\n      var _index = getIndexByIdentifier(_identifier);\n      if (stylesInDOM[_index].references === 0) {\n        stylesInDOM[_index].updater();\n        stylesInDOM.splice(_index, 1);\n      }\n    }\n    lastIdentifiers = newLastIdentifiers;\n  };\n};\n\n//# sourceURL=webpack://fs-sort/./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js?");
-
-/***/ }),
-
-/***/ "./node_modules/style-loader/dist/runtime/insertBySelector.js":
-/*!********************************************************************!*\
-  !*** ./node_modules/style-loader/dist/runtime/insertBySelector.js ***!
-  \********************************************************************/
-/***/ ((module) => {
-
-eval("\n\nvar memo = {};\n\n/* istanbul ignore next  */\nfunction getTarget(target) {\n  if (typeof memo[target] === \"undefined\") {\n    var styleTarget = document.querySelector(target);\n\n    // Special case to return head of iframe instead of iframe itself\n    if (window.HTMLIFrameElement && styleTarget instanceof window.HTMLIFrameElement) {\n      try {\n        // This will throw an exception if access to iframe is blocked\n        // due to cross-origin restrictions\n        styleTarget = styleTarget.contentDocument.head;\n      } catch (e) {\n        // istanbul ignore next\n        styleTarget = null;\n      }\n    }\n    memo[target] = styleTarget;\n  }\n  return memo[target];\n}\n\n/* istanbul ignore next  */\nfunction insertBySelector(insert, style) {\n  var target = getTarget(insert);\n  if (!target) {\n    throw new Error(\"Couldn't find a style target. This probably means that the value for the 'insert' parameter is invalid.\");\n  }\n  target.appendChild(style);\n}\nmodule.exports = insertBySelector;\n\n//# sourceURL=webpack://fs-sort/./node_modules/style-loader/dist/runtime/insertBySelector.js?");
-
-/***/ }),
-
-/***/ "./node_modules/style-loader/dist/runtime/insertStyleElement.js":
-/*!**********************************************************************!*\
-  !*** ./node_modules/style-loader/dist/runtime/insertStyleElement.js ***!
-  \**********************************************************************/
-/***/ ((module) => {
-
-eval("\n\n/* istanbul ignore next  */\nfunction insertStyleElement(options) {\n  var element = document.createElement(\"style\");\n  options.setAttributes(element, options.attributes);\n  options.insert(element, options.options);\n  return element;\n}\nmodule.exports = insertStyleElement;\n\n//# sourceURL=webpack://fs-sort/./node_modules/style-loader/dist/runtime/insertStyleElement.js?");
-
-/***/ }),
-
-/***/ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js":
-/*!**********************************************************************************!*\
-  !*** ./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js ***!
-  \**********************************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-eval("\n\n/* istanbul ignore next  */\nfunction setAttributesWithoutAttributes(styleElement) {\n  var nonce =  true ? __webpack_require__.nc : 0;\n  if (nonce) {\n    styleElement.setAttribute(\"nonce\", nonce);\n  }\n}\nmodule.exports = setAttributesWithoutAttributes;\n\n//# sourceURL=webpack://fs-sort/./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js?");
-
-/***/ }),
-
-/***/ "./node_modules/style-loader/dist/runtime/styleDomAPI.js":
-/*!***************************************************************!*\
-  !*** ./node_modules/style-loader/dist/runtime/styleDomAPI.js ***!
-  \***************************************************************/
-/***/ ((module) => {
-
-eval("\n\n/* istanbul ignore next  */\nfunction apply(styleElement, options, obj) {\n  var css = \"\";\n  if (obj.supports) {\n    css += \"@supports (\".concat(obj.supports, \") {\");\n  }\n  if (obj.media) {\n    css += \"@media \".concat(obj.media, \" {\");\n  }\n  var needLayer = typeof obj.layer !== \"undefined\";\n  if (needLayer) {\n    css += \"@layer\".concat(obj.layer.length > 0 ? \" \".concat(obj.layer) : \"\", \" {\");\n  }\n  css += obj.css;\n  if (needLayer) {\n    css += \"}\";\n  }\n  if (obj.media) {\n    css += \"}\";\n  }\n  if (obj.supports) {\n    css += \"}\";\n  }\n  var sourceMap = obj.sourceMap;\n  if (sourceMap && typeof btoa !== \"undefined\") {\n    css += \"\\n/*# sourceMappingURL=data:application/json;base64,\".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), \" */\");\n  }\n\n  // For old IE\n  /* istanbul ignore if  */\n  options.styleTagTransform(css, styleElement, options.options);\n}\nfunction removeStyleElement(styleElement) {\n  // istanbul ignore if\n  if (styleElement.parentNode === null) {\n    return false;\n  }\n  styleElement.parentNode.removeChild(styleElement);\n}\n\n/* istanbul ignore next  */\nfunction domAPI(options) {\n  if (typeof document === \"undefined\") {\n    return {\n      update: function update() {},\n      remove: function remove() {}\n    };\n  }\n  var styleElement = options.insertStyleElement(options);\n  return {\n    update: function update(obj) {\n      apply(styleElement, options, obj);\n    },\n    remove: function remove() {\n      removeStyleElement(styleElement);\n    }\n  };\n}\nmodule.exports = domAPI;\n\n//# sourceURL=webpack://fs-sort/./node_modules/style-loader/dist/runtime/styleDomAPI.js?");
-
-/***/ }),
-
-/***/ "./node_modules/style-loader/dist/runtime/styleTagTransform.js":
-/*!*********************************************************************!*\
-  !*** ./node_modules/style-loader/dist/runtime/styleTagTransform.js ***!
-  \*********************************************************************/
-/***/ ((module) => {
-
-eval("\n\n/* istanbul ignore next  */\nfunction styleTagTransform(css, styleElement) {\n  if (styleElement.styleSheet) {\n    styleElement.styleSheet.cssText = css;\n  } else {\n    while (styleElement.firstChild) {\n      styleElement.removeChild(styleElement.firstChild);\n    }\n    styleElement.appendChild(document.createTextNode(css));\n  }\n}\nmodule.exports = styleTagTransform;\n\n//# sourceURL=webpack://fs-sort/./node_modules/style-loader/dist/runtime/styleTagTransform.js?");
+eval("\nvar __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\n    return new (P || (P = Promise))(function (resolve, reject) {\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\n        function rejected(value) { try { step(generator[\"throw\"](value)); } catch (e) { reject(e); } }\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\n    });\n};\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.fetchFiles = fetchFiles;\nfunction fetchFiles(root, sort, signal) {\n    return __awaiter(this, void 0, void 0, function* () {\n        const response = yield fetch(`/api/fs?root=${encodeURIComponent(root)}&sort=${sort}`, { signal });\n        if (!response.ok) {\n            throw new Error('Ошибка при загрузке данных');\n        }\n        return response.json();\n    });\n}\n\n\n//# sourceURL=webpack://fs-sort/./static/api/fileService.ts?");
 
 /***/ }),
 
@@ -106,17 +26,47 @@ eval("\n\n/* istanbul ignore next  */\nfunction styleTagTransform(css, styleElem
   \***********************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
-eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\n__webpack_require__(/*! ./style.css */ \"./static/style.css\");\ndocument.addEventListener(\"DOMContentLoaded\", updateTable);\nlet controller = null;\nfunction updateTable() {\n    if (controller) {\n        controller.abort();\n    }\n    controller = new AbortController();\n    const signal = controller.signal;\n    const loader = document.getElementById(\"loader\");\n    const fileGrid = document.querySelector(\".file-grid\");\n    const params = new URLSearchParams(window.location.search);\n    let root = params.get(\"root\") || \"/\";\n    const sort = params.get(\"sort\") || \"desc\";\n    const buttons = document.querySelectorAll(\".button\"); // Получаем все кнопки\n    buttons.forEach((button) => button.disabled = true);\n    if (loader)\n        loader.style.display = \"block\"; // Показываем индикатор\n    if (fileGrid)\n        fileGrid.classList.add(\"hidden\"); // Блокируем клики\n    fetch(`/api/fs?root=${encodeURIComponent(root)}&sort=${sort}`, { signal })\n        .then((response) => response.json())\n        .then((data) => {\n        console.log(`Обновляем таблицу данными из запроса #`);\n        renderTable(data, root);\n    })\n        .catch((error) => {\n        if (error.name === \"AbortError\") {\n            console.log(`Запрос отменён`);\n        }\n        else {\n            console.error(`Ошибка в запросе`, error);\n        }\n    })\n        .finally(() => {\n        buttons.forEach((button) => button.disabled = false);\n        if (loader)\n            loader.style.display = \"none\"; // Скрываем индикатор\n        if (fileGrid)\n            fileGrid.classList.remove(\"hidden\"); // Разблокируем клики\n    });\n}\n// renderTable генерируем таблицу\nfunction renderTable(files, root) {\n    const container = document.querySelector(\".file-grid\") || null;\n    const pathUrl = document.querySelector(\".current-path\") || null;\n    if (!container) {\n        console.error(\"File grid container not found.\");\n        return;\n    }\n    container.innerHTML = \"\";\n    pathUrl.innerHTML = `Путь ${root}`;\n    files.forEach((file) => {\n        const row = document.createElement(\"div\");\n        row.classList.add(\"file-grid__row\");\n        row.innerHTML = `\n            <div class=\"file-grid__cell\">${file.category}</div>\n            <div class=\"file-grid__cell ${file.category === \"d\" ? \"folder\" : \"\"}\" data-name=\"${file.name}\">${file.name}</div>\n            <div class=\"file-grid__cell\">${file.weight}</div>\n            <div class=\"file-grid__cell\">${file.weight_name}</div>\n        `;\n        if (file.category === \"d\") {\n            row.addEventListener(\"click\", function () {\n                let newRoot = root.endsWith(\"/\") ? root + file.name : root + \"/\" + file.name;\n                history.pushState({ root: newRoot }, \"\", `?root=${encodeURIComponent(newRoot)}&sort=desc`);\n                updateTable();\n            });\n            row.style.cursor = \"pointer\";\n        }\n        else {\n            row.style.cursor = \"default\";\n        }\n        container.appendChild(row);\n    });\n}\nconst sortAscButton = document.querySelector(\".button--sort-asc\");\nconst sortDescButton = document.querySelector(\".button--sort-desc\");\nconst backButton = document.querySelector(\".button--back\");\nconst statisticsButton = document.querySelector(\".button--statistics\");\n// Добавляем обработчики для кнопок сортировки\nif (sortAscButton && sortDescButton && backButton && statisticsButton) {\n    sortAscButton.addEventListener(\"click\", function () {\n        const params = new URLSearchParams(window.location.search);\n        let root = params.get(\"root\") || \"/\"; // Получаем актуальный root из URL\n        history.pushState({ root: root }, \"\", `?root=${encodeURIComponent(root)}&sort=asc`);\n        updateTable();\n    });\n    sortDescButton.addEventListener(\"click\", function () {\n        const params = new URLSearchParams(window.location.search);\n        let root = params.get(\"root\") || \"/\"; // Получаем актуальный root из URL\n        history.pushState({ root: root }, \"\", `?root=${encodeURIComponent(root)}&sort=desc`);\n        updateTable();\n    });\n    // Кнопка назад\n    backButton.addEventListener(\"click\", function () {\n        const params = new URLSearchParams(window.location.search);\n        let root = params.get(\"root\") || \"/\";\n        let newRoot = root.split(\"/\").slice(0, -1).join(\"/\");\n        if (newRoot === \"\") {\n            newRoot = \"/\";\n        }\n        history.pushState({ root: newRoot }, \"\", `?root=${encodeURIComponent(newRoot)}&sort=desc`);\n        updateTable();\n    });\n    // Кнопка статистики\n    statisticsButton.addEventListener(\"click\", function () {\n        window.location.href = \"http://localhost/read_stat.php\";\n    });\n}\n// Обрабатываем изменение URL при нажатии \"Назад\" в браузере\nwindow.addEventListener(\"popstate\", function () {\n    updateTable();\n});\n\n\n//# sourceURL=webpack://fs-sort/./static/app.ts?");
+eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\n// src/app.ts\nconst updateTable_1 = __webpack_require__(/*! ./utils/updateTable */ \"./static/utils/updateTable.ts\"); // Импортируем функцию обновления таблицы\n// Инициализация\ndocument.addEventListener(\"DOMContentLoaded\", updateTable_1.updateTable);\nconst sortAscButton = document.querySelector(\".button--sort-asc\");\nconst sortDescButton = document.querySelector(\".button--sort-desc\");\nconst backButton = document.querySelector(\".button--back\");\nconst statisticsButton = document.querySelector(\".button--statistics\");\n// Добавляем обработчики для кнопок сортировки\nif (sortAscButton && sortDescButton && backButton && statisticsButton) {\n    sortAscButton.addEventListener(\"click\", function () {\n        const params = new URLSearchParams(window.location.search);\n        let root = params.get(\"root\") || \"/\"; // Получаем актуальный root из URL\n        history.pushState({ root: root }, \"\", `?root=${encodeURIComponent(root)}&sort=asc`);\n        (0, updateTable_1.updateTable)();\n    });\n    sortDescButton.addEventListener(\"click\", function () {\n        const params = new URLSearchParams(window.location.search);\n        let root = params.get(\"root\") || \"/\"; // Получаем актуальный root из URL\n        history.pushState({ root: root }, \"\", `?root=${encodeURIComponent(root)}&sort=desc`);\n        (0, updateTable_1.updateTable)();\n    });\n    // Кнопка назад\n    backButton.addEventListener(\"click\", function () {\n        const params = new URLSearchParams(window.location.search);\n        let root = params.get(\"root\") || \"/\";\n        let newRoot = root.split(\"/\").slice(0, -1).join(\"/\");\n        if (newRoot === \"\") {\n            newRoot = \"/\";\n        }\n        history.pushState({ root: newRoot }, \"\", `?root=${encodeURIComponent(newRoot)}&sort=desc`);\n        (0, updateTable_1.updateTable)();\n    });\n    // Кнопка статистики\n    statisticsButton.addEventListener(\"click\", function () {\n        window.location.href = \"http://localhost/read_stat.php\";\n    });\n}\n\n\n//# sourceURL=webpack://fs-sort/./static/app.ts?");
 
 /***/ }),
 
-/***/ "./static/style.css":
-/*!**************************!*\
-  !*** ./static/style.css ***!
-  \**************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ "./static/components/fileGrid.ts":
+/*!***************************************!*\
+  !*** ./static/components/fileGrid.ts ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ \"./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js\");\n/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../node_modules/style-loader/dist/runtime/styleDomAPI.js */ \"./node_modules/style-loader/dist/runtime/styleDomAPI.js\");\n/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../node_modules/style-loader/dist/runtime/insertBySelector.js */ \"./node_modules/style-loader/dist/runtime/insertBySelector.js\");\n/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);\n/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ \"./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js\");\n/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);\n/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../node_modules/style-loader/dist/runtime/insertStyleElement.js */ \"./node_modules/style-loader/dist/runtime/insertStyleElement.js\");\n/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);\n/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../node_modules/style-loader/dist/runtime/styleTagTransform.js */ \"./node_modules/style-loader/dist/runtime/styleTagTransform.js\");\n/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);\n/* harmony import */ var _node_modules_css_loader_dist_cjs_js_style_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../node_modules/css-loader/dist/cjs.js!./style.css */ \"./node_modules/css-loader/dist/cjs.js!./static/style.css\");\n\n      \n      \n      \n      \n      \n      \n      \n      \n      \n\nvar options = {};\n\noptions.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());\noptions.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());\noptions.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, \"head\");\noptions.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());\noptions.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());\n\nvar update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_style_css__WEBPACK_IMPORTED_MODULE_6__[\"default\"], options);\n\n\n\n\n       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_style_css__WEBPACK_IMPORTED_MODULE_6__[\"default\"] && _node_modules_css_loader_dist_cjs_js_style_css__WEBPACK_IMPORTED_MODULE_6__[\"default\"].locals ? _node_modules_css_loader_dist_cjs_js_style_css__WEBPACK_IMPORTED_MODULE_6__[\"default\"].locals : undefined);\n\n\n//# sourceURL=webpack://fs-sort/./static/style.css?");
+eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.renderTable = renderTable;\nconst urlHelper_1 = __webpack_require__(/*! ../utils/urlHelper */ \"./static/utils/urlHelper.ts\");\nconst updateTable_1 = __webpack_require__(/*! ../utils/updateTable */ \"./static/utils/updateTable.ts\");\nfunction renderTable(files, root) {\n    const container = document.querySelector(\".file-grid\") || null;\n    const pathUrl = document.querySelector(\".current-path\") || null;\n    if (!container) {\n        console.error(\"File grid container not found.\");\n        return;\n    }\n    container.innerHTML = \"\";\n    pathUrl.innerHTML = `Путь ${root}`;\n    files.forEach((file) => {\n        const row = document.createElement(\"div\");\n        row.classList.add(\"file-grid__row\");\n        row.innerHTML = `\n            <div class=\"file-grid__cell\">${file.category}</div>\n            <div class=\"file-grid__cell ${file.category === \"d\" ? \"folder\" : \"\"}\" data-name=\"${file.name}\">${file.name}</div>\n            <div class=\"file-grid__cell\">${file.weight}</div>\n            <div class=\"file-grid__cell\">${file.weight_name}</div>\n        `;\n        if (file.category === \"d\") {\n            row.addEventListener(\"click\", function () {\n                const newRoot = root.endsWith(\"/\") ? root + file.name : root + \"/\" + file.name;\n                (0, urlHelper_1.updateUrl)(newRoot, \"desc\");\n                (0, updateTable_1.updateTable)();\n            });\n            row.style.cursor = \"pointer\";\n        }\n        else {\n            row.style.cursor = \"default\";\n        }\n        container.appendChild(row);\n    });\n}\n\n\n//# sourceURL=webpack://fs-sort/./static/components/fileGrid.ts?");
+
+/***/ }),
+
+/***/ "./static/components/loader.ts":
+/*!*************************************!*\
+  !*** ./static/components/loader.ts ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.showLoader = showLoader;\nexports.hideLoader = hideLoader;\n// src/components/loader.ts\nfunction showLoader(loader) {\n    if (loader) {\n        loader.style.display = \"block\";\n    }\n}\nfunction hideLoader(loader) {\n    if (loader) {\n        loader.style.display = \"none\";\n    }\n}\n\n\n//# sourceURL=webpack://fs-sort/./static/components/loader.ts?");
+
+/***/ }),
+
+/***/ "./static/utils/updateTable.ts":
+/*!*************************************!*\
+  !*** ./static/utils/updateTable.ts ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.updateTable = updateTable;\n// src/updateTable.ts\nconst fileService_1 = __webpack_require__(/*! ../api/fileService */ \"./static/api/fileService.ts\");\nconst fileGrid_1 = __webpack_require__(/*! ../components/fileGrid */ \"./static/components/fileGrid.ts\");\nconst loader_1 = __webpack_require__(/*! ../components/loader */ \"./static/components/loader.ts\");\nconst urlHelper_1 = __webpack_require__(/*! ./urlHelper */ \"./static/utils/urlHelper.ts\");\nlet controller = null;\nfunction updateTable() {\n    if (controller) {\n        controller.abort();\n    }\n    controller = new AbortController();\n    const signal = controller.signal;\n    const loader = document.getElementById(\"loader\");\n    const fileGrid = document.querySelector(\".file-grid\");\n    let root = (0, urlHelper_1.getRootFromUrl)();\n    let sort = (0, urlHelper_1.getSortFromUrl)();\n    const buttons = document.querySelectorAll(\".button\");\n    buttons.forEach((button) => button.disabled = true);\n    (0, loader_1.showLoader)(loader);\n    if (fileGrid)\n        fileGrid.classList.add(\"hidden\");\n    (0, fileService_1.fetchFiles)(root, sort, signal)\n        .then((data) => {\n        (0, fileGrid_1.renderTable)(data, root);\n    })\n        .catch((error) => {\n        if (error.name !== \"AbortError\") {\n            console.error(\"Ошибка в запросе\", error);\n        }\n    })\n        .finally(() => {\n        buttons.forEach((button) => button.disabled = false);\n        (0, loader_1.hideLoader)(loader);\n        if (fileGrid)\n            fileGrid.classList.remove(\"hidden\");\n    });\n}\n\n\n//# sourceURL=webpack://fs-sort/./static/utils/updateTable.ts?");
+
+/***/ }),
+
+/***/ "./static/utils/urlHelper.ts":
+/*!***********************************!*\
+  !*** ./static/utils/urlHelper.ts ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.getRootFromUrl = getRootFromUrl;\nexports.getSortFromUrl = getSortFromUrl;\nexports.updateUrl = updateUrl;\n// src/utils/urlHelper.ts\nfunction getRootFromUrl() {\n    const params = new URLSearchParams(window.location.search);\n    return params.get(\"root\") || \"/\";\n}\nfunction getSortFromUrl() {\n    const params = new URLSearchParams(window.location.search);\n    return params.get(\"sort\") || \"desc\";\n}\nfunction updateUrl(newRoot, sort) {\n    history.pushState({ root: newRoot }, \"\", `?root=${encodeURIComponent(newRoot)}&sort=${sort}`);\n}\n\n\n//# sourceURL=webpack://fs-sort/./static/utils/urlHelper.ts?");
 
 /***/ })
 
@@ -134,63 +84,17 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
-/******/ 			id: moduleId,
+/******/ 			// no module.id needed
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
 /******/ 	
 /******/ 		// Execute the module function
-/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
 /******/ 	
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/ 	
-/************************************************************************/
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = (module) => {
-/******/ 			var getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
-/******/ 			__webpack_require__.d(getter, { a: getter });
-/******/ 			return getter;
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
-/******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
-/******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/nonce */
-/******/ 	(() => {
-/******/ 		__webpack_require__.nc = undefined;
-/******/ 	})();
 /******/ 	
 /************************************************************************/
 /******/ 	

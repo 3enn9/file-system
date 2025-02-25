@@ -2,11 +2,14 @@
 // Устанавливаем заголовки для работы с JSON
 header('Content-Type: text/html; charset=utf-8');
 
-// Подключаемся к базе данных
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "stat";
+// Загружаем конфигурацию
+$config = require 'config.php';
+
+// Подключение к базе данных
+$servername = $config['DB_HOST'];
+$username = $config['DB_USERNAME'];
+$password = $config['DB_PASSWORD'];
+$dbname = $config['DB_NAME'];
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -16,7 +19,7 @@ if ($conn->connect_error) {
 }
 
 // Выполняем запрос для получения всех данных
-$sql = "SELECT * FROM data ORDER BY date DESC";  // Сортировка по дате, от новых к старым
+$sql = "SELECT root, size, elapsedTime, date FROM data ORDER BY date DESC";  // Сортировка по дате, от новых к старым
 $result = $conn->query($sql);
 
 // Массив для хранения данных
@@ -69,11 +72,25 @@ $conn->close();
         th {
             background-color: #f4f4f4;
         }
+        .back-button {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .back-button:hover {
+            back
     </style>
 </head>
 <body>
 
 <h1>Статистика</h1>
+
+<!-- Кнопка "Назад" -->
+<a href="javascript:history.back()" class="back-button">Назад</a>
 
 <!-- График -->
 <canvas id="myChart"></canvas>
@@ -109,7 +126,7 @@ const dates = <?php echo json_encode($dates); ?>;
 const sizes = <?php echo json_encode($sizes); ?>;
 const elapsedTimes = <?php echo json_encode($elapsedTimes); ?>;
 
-// Создаем график
+// Создаем график с помощью Chart.js
 const ctx = document.getElementById('myChart').getContext('2d');
 const myChart = new Chart(ctx, {
     type: 'line', // Тип графика: линейный

@@ -1,8 +1,8 @@
-// src/updateTable.ts
-import { fetchFiles } from "./api/fileService";
-import { renderTable } from "./components/fileGrid";
-import { showLoader, hideLoader } from "./components/loader";
-import { getRootFromUrl, getSortFromUrl, updateUrl } from "./utils/urlHelper";
+
+import { fetchFiles } from "../api/fileService";
+import { renderTable } from "../components/fileGrid";
+import { showLoader, hideLoader } from "../components/loader";
+import { getRootFromUrl, getSortFromUrl, updateUrl } from "./urlHelper";
 import { MyFile } from "./types";
 
 let controller: AbortController | null = null;
