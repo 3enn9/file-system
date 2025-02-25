@@ -30,9 +30,9 @@ if ($result->num_rows > 0) {
     // Собираем данные для графика
     while ($row = $result->fetch_assoc()) {
         $dates[] = $row['date'];
-        $sizes[] = $row['size'];  // Храним размер в байтах
+        $sizes[] = $row['size'];
         $elapsedTimes[] = $row['elapsedTime'];
-        $roots[] = $row['root'];  // Сохраняем значение столбца root
+        $roots[] = $row['root'];
     }
 } else {
     echo "Нет данных для отображения";
@@ -94,7 +94,7 @@ $conn->close();
         foreach ($dates as $index => $date) {
             echo "<tr>";
             echo "<td>" . $date . "</td>";
-            echo "<td>" . $roots[$index] . "</td>";  // Выводим значение столбца root
+            echo "<td>" . $roots[$index] . "</td>";
             echo "<td>" . $sizes[$index] . "</td>";
             echo "<td>" . $elapsedTimes[$index] . "</td>";
             echo "</tr>";
@@ -109,7 +109,7 @@ const dates = <?php echo json_encode($dates); ?>;
 const sizes = <?php echo json_encode($sizes); ?>;
 const elapsedTimes = <?php echo json_encode($elapsedTimes); ?>;
 
-// Создаем график с помощью Chart.js
+// Создаем график
 const ctx = document.getElementById('myChart').getContext('2d');
 const myChart = new Chart(ctx, {
     type: 'line', // Тип графика: линейный

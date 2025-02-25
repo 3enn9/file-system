@@ -20,7 +20,7 @@ if (isset($data['root']) && isset($data['size']) && isset($data['elapsedTime']))
         die(json_encode(["error" => "Ошибка подключения к базе данных: " . $conn->connect_error]));
     }
 
-    // Подготавливаем запрос для добавления данных в базу
+    // Запрос для добавления данных в базу
     $stmt = $conn->prepare("INSERT INTO data (root, size, elapsedTime, date) VALUES (?, ?, ?, NOW())");
     $stmt->bind_param("sss", $data['root'], $data['size'], $data['elapsedTime']);
 
