@@ -7,7 +7,6 @@ import (
 	"fs-sort/internal/transport"
 	"log"
 	"net/http"
-	"os"
 	"os/signal"
 	"syscall"
 	"time"
@@ -43,16 +42,23 @@ func main() {
 		}
 	}()
 
-	// Ожидание сигнала для завершения работы
-	sigChan := make(chan os.Signal, 1)
-	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
-	sig := <-sigChan
+	// Ожидание сигнала для завершения работы с использованием signal.NotifyContext
+	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
+	defer stop() // Убедитесь, что контекст отменится при завершении
 
-	log.Println("Получен сигнал, начинаем завершение работы", sig)
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	// Ожидание завершения работы сервера с контекстом
+	<-ctx.Done()
+
+	log.Println("Получен сигнал, начинаем завершение работы", ctx.Err())
+
+	// Создание контекста для graceful shutdown с таймаутом
+	shutdownCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	if err := server.Shutdown(ctx); err != nil {
+	// Попытка корректно завершить работу сервера
+	if err := server.Shutdown(shutdownCtx); err != nil {
 		log.Fatalf("Ошибка при завершении работы сервера %v", err)
 	}
+
+	log.Println("Сервер успешно завершил работу")
 }
